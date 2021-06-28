@@ -12,7 +12,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :object_definitions, :string, 1, json_name: "objectDefinitions"
     end
     add_message "authzed.api.v1alpha1.WriteSchemaRequest" do
-      optional :implicit_permissions_system, :string, 1, json_name: "implicitPermissionsSystem"
       repeated :object_definitions, :string, 2, json_name: "objectDefinitions"
     end
     add_message "authzed.api.v1alpha1.WriteSchemaResponse" do
