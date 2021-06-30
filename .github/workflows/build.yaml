@@ -1,0 +1,33 @@
+name: "build"
+on:
+  push:
+    branches:
+    - "!dependabot/*"
+    - "*"
+  pull_request:
+    branches:
+    - "*"
+jobs:
+  protobuf:
+    name: "Generate Protobufs"
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: "actions/checkout@v2"
+    - uses: "actions/setup-go@v2"
+    - uses: "ruby/setup-ruby@v1"
+      with:
+        ruby-version: "2.7.3"
+    - uses: arduino/setup-protoc@v1
+      with:
+        version: "3.17.3"
+    - name: Install Homebrew & gRPC
+      run: |
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        brew install grpc
+    - uses: bufbuild/buf-setup-action@v0.1.0
+      with:
+        version: '0.43.2'
+    - name: "Generate & Diff Protos"
+      run: |
+        ./buf.gen.yaml
+        bash -c '[ $(git status --porcelain | tee /dev/fd/2 | wc -c) -eq 0 ]'
