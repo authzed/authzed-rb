@@ -20,6 +20,7 @@ module Authzed
           rpc :Validate, ::Authzed::Api::V0::ValidateRequest, ::Authzed::Api::V0::ValidateResponse
           rpc :Share, ::Authzed::Api::V0::ShareRequest, ::Authzed::Api::V0::ShareResponse
           rpc :LookupShared, ::Authzed::Api::V0::LookupShareRequest, ::Authzed::Api::V0::LookupShareResponse
+          rpc :UpgradeSchema, ::Authzed::Api::V0::UpgradeSchemaRequest, ::Authzed::Api::V0::UpgradeSchemaResponse
         end
 
         Stub = Service.rpc_stub_class

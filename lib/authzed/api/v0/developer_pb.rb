@@ -7,9 +7,16 @@ require 'authzed/api/v0/core_pb'
 require 'authzed/api/v0/namespace_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/developer.proto", :syntax => :proto3) do
-    add_message "authzed.api.v0.ShareRequest" do
+    add_message "authzed.api.v0.UpgradeSchemaRequest" do
       repeated :namespace_configs, :string, 1, json_name: "namespaceConfigs"
-      optional :relation_tuples, :string, 2, json_name: "relationTuples"
+    end
+    add_message "authzed.api.v0.UpgradeSchemaResponse" do
+      optional :error, :message, 1, "authzed.api.v0.DeveloperError", json_name: "error"
+      optional :upgraded_schema, :string, 2, json_name: "upgradedSchema"
+    end
+    add_message "authzed.api.v0.ShareRequest" do
+      optional :schema, :string, 1, json_name: "schema"
+      optional :relationships_yaml, :string, 2, json_name: "relationshipsYaml"
       optional :validation_yaml, :string, 3, json_name: "validationYaml"
       optional :assertions_yaml, :string, 4, json_name: "assertionsYaml"
     end
@@ -21,8 +28,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "authzed.api.v0.LookupShareResponse" do
       optional :status, :enum, 1, "authzed.api.v0.LookupShareResponse.LookupStatus", json_name: "status"
-      repeated :namespace_configs, :string, 2, json_name: "namespaceConfigs"
-      optional :relation_tuples, :string, 3, json_name: "relationTuples"
+      optional :schema, :string, 2, json_name: "schema"
+      optional :relationships_yaml, :string, 3, json_name: "relationshipsYaml"
       optional :validation_yaml, :string, 4, json_name: "validationYaml"
       optional :assertions_yaml, :string, 5, json_name: "assertionsYaml"
     end
@@ -30,33 +37,24 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :UNKNOWN_REFERENCE, 0
       value :FAILED_TO_LOOKUP, 1
       value :VALID_REFERENCE, 2
-    end
-    add_message "authzed.api.v0.NamespaceContext" do
-      optional :handle, :string, 1, json_name: "handle"
-      optional :config, :string, 2, json_name: "config"
+      value :UPGRADED_REFERENCE, 3
     end
     add_message "authzed.api.v0.RequestContext" do
-      repeated :namespaces, :message, 1, "authzed.api.v0.NamespaceContext", json_name: "namespaces"
-      repeated :tuples, :message, 2, "authzed.api.v0.RelationTuple", json_name: "tuples"
-    end
-    add_message "authzed.api.v0.NamespaceInformation" do
-      optional :handle, :string, 1, json_name: "handle"
-      optional :parsed, :message, 2, "authzed.api.v0.NamespaceDefinition", json_name: "parsed"
-      repeated :errors, :message, 3, "authzed.api.v0.ValidationError", json_name: "errors"
+      optional :schema, :string, 1, json_name: "schema"
+      repeated :relationships, :message, 2, "authzed.api.v0.RelationTuple", json_name: "relationships"
     end
     add_message "authzed.api.v0.EditCheckRequest" do
       optional :context, :message, 1, "authzed.api.v0.RequestContext", json_name: "context"
-      repeated :check_tuples, :message, 2, "authzed.api.v0.RelationTuple", json_name: "checkTuples"
+      repeated :check_relationships, :message, 2, "authzed.api.v0.RelationTuple", json_name: "checkRelationships"
     end
     add_message "authzed.api.v0.EditCheckResult" do
-      optional :tuple, :message, 1, "authzed.api.v0.RelationTuple", json_name: "tuple"
+      optional :relationship, :message, 1, "authzed.api.v0.RelationTuple", json_name: "relationship"
       optional :is_member, :bool, 2, json_name: "isMember"
-      optional :error, :message, 3, "authzed.api.v0.ValidationError", json_name: "error"
+      optional :error, :message, 3, "authzed.api.v0.DeveloperError", json_name: "error"
     end
     add_message "authzed.api.v0.EditCheckResponse" do
-      repeated :context_namespaces, :message, 1, "authzed.api.v0.NamespaceInformation", json_name: "contextNamespaces"
-      repeated :additional_errors, :message, 2, "authzed.api.v0.ValidationError", json_name: "additionalErrors"
-      repeated :check_results, :message, 3, "authzed.api.v0.EditCheckResult", json_name: "checkResults"
+      repeated :request_errors, :message, 1, "authzed.api.v0.DeveloperError", json_name: "requestErrors"
+      repeated :check_results, :message, 2, "authzed.api.v0.EditCheckResult", json_name: "checkResults"
     end
     add_message "authzed.api.v0.ValidateRequest" do
       optional :context, :message, 1, "authzed.api.v0.RequestContext", json_name: "context"
@@ -64,39 +62,39 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :update_validation_yaml, :bool, 4, json_name: "updateValidationYaml"
       optional :assertions_yaml, :string, 5, json_name: "assertionsYaml"
     end
-    add_message "authzed.api.v0.ValidationError" do
+    add_message "authzed.api.v0.ValidateResponse" do
+      repeated :request_errors, :message, 1, "authzed.api.v0.DeveloperError", json_name: "requestErrors"
+      repeated :validation_errors, :message, 2, "authzed.api.v0.DeveloperError", json_name: "validationErrors"
+      optional :updated_validation_yaml, :string, 3, json_name: "updatedValidationYaml"
+    end
+    add_message "authzed.api.v0.DeveloperError" do
       optional :message, :string, 1, json_name: "message"
       optional :line, :uint32, 2, json_name: "line"
       optional :column, :uint32, 3, json_name: "column"
-      optional :source, :enum, 4, "authzed.api.v0.ValidationError.Source", json_name: "source"
-      optional :kind, :enum, 5, "authzed.api.v0.ValidationError.ErrorKind", json_name: "kind"
+      optional :source, :enum, 4, "authzed.api.v0.DeveloperError.Source", json_name: "source"
+      optional :kind, :enum, 5, "authzed.api.v0.DeveloperError.ErrorKind", json_name: "kind"
       repeated :path, :string, 6, json_name: "path"
-      optional :metadata, :string, 7, json_name: "metadata"
+      optional :context, :string, 7, json_name: "context"
     end
-    add_enum "authzed.api.v0.ValidationError.Source" do
+    add_enum "authzed.api.v0.DeveloperError.Source" do
       value :UNKNOWN_SOURCE, 0
-      value :NAMESPACE_CONFIG, 1
-      value :VALIDATION_TUPLE, 2
+      value :SCHEMA, 1
+      value :RELATIONSHIP, 2
       value :VALIDATION_YAML, 3
       value :CHECK_WATCH, 4
       value :ASSERTION, 5
     end
-    add_enum "authzed.api.v0.ValidationError.ErrorKind" do
+    add_enum "authzed.api.v0.DeveloperError.ErrorKind" do
       value :UNKNOWN_KIND, 0
       value :PARSE_ERROR, 1
-      value :NAMESPACE_CONFIG_ISSUE, 2
-      value :DUPLICATE_TUPLE, 3
-      value :MISSING_EXPECTED_TUPLE, 4
-      value :EXTRA_TUPLE_FOUND, 5
-      value :UNKNOWN_NAMESPACE, 6
+      value :SCHEMA_ISSUE, 2
+      value :DUPLICATE_RELATIONSHIP, 3
+      value :MISSING_EXPECTED_RELATIONSHIP, 4
+      value :EXTRA_RELATIONSHIP_FOUND, 5
+      value :UNKNOWN_OBJECT_TYPE, 6
       value :UNKNOWN_RELATION, 7
       value :MAXIMUM_RECURSION, 8
       value :ASSERTION_FAILED, 9
-    end
-    add_message "authzed.api.v0.ValidateResponse" do
-      repeated :context_namespaces, :message, 1, "authzed.api.v0.NamespaceInformation", json_name: "contextNamespaces"
-      repeated :validation_errors, :message, 2, "authzed.api.v0.ValidationError", json_name: "validationErrors"
-      optional :updated_validation_yaml, :string, 3, json_name: "updatedValidationYaml"
     end
   end
 end
@@ -104,22 +102,22 @@ end
 module Authzed
   module Api
     module V0
+      UpgradeSchemaRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.UpgradeSchemaRequest").msgclass
+      UpgradeSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.UpgradeSchemaResponse").msgclass
       ShareRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ShareRequest").msgclass
       ShareResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ShareResponse").msgclass
       LookupShareRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.LookupShareRequest").msgclass
       LookupShareResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.LookupShareResponse").msgclass
       LookupShareResponse::LookupStatus = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.LookupShareResponse.LookupStatus").enummodule
-      NamespaceContext = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.NamespaceContext").msgclass
       RequestContext = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.RequestContext").msgclass
-      NamespaceInformation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.NamespaceInformation").msgclass
       EditCheckRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.EditCheckRequest").msgclass
       EditCheckResult = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.EditCheckResult").msgclass
       EditCheckResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.EditCheckResponse").msgclass
       ValidateRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ValidateRequest").msgclass
-      ValidationError = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ValidationError").msgclass
-      ValidationError::Source = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ValidationError.Source").enummodule
-      ValidationError::ErrorKind = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ValidationError.ErrorKind").enummodule
       ValidateResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ValidateResponse").msgclass
+      DeveloperError = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.DeveloperError").msgclass
+      DeveloperError::Source = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.DeveloperError.Source").enummodule
+      DeveloperError::ErrorKind = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.DeveloperError.ErrorKind").enummodule
     end
   end
 end
