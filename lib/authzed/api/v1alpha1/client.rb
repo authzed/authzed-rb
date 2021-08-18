@@ -7,15 +7,14 @@ module Authzed
 
         attr_reader :schema_service
 
-        def initialize(target:, token:, credentials: nil, options: {}, timeout: nil)
-          bearer = ::Authzed::GrpcUtil::BearerToken.new(token: token)
+        def initialize(target:, credentials: nil, interceptors: [], options: {}, timeout: nil)
           creds = credentials || GRPC::Core::ChannelCredentials.new
 
           @schema_service = Authzed::Api::V1alpha1::SchemaService::Service::Stub.new(
             target,
             creds,
             timeout: timeout,
-            interceptors: [bearer],
+            interceptors: interceptors,
             channel_args: options,
           )
         end

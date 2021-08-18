@@ -6,35 +6,35 @@ module Authzed
       class Client
         attr_reader :acl_service, :developer_service, :namespace_service, :watch_service
 
-        def initialize(target:, token:, credentials: nil, options: {}, timeout: nil)
-          bearer = ::Authzed::GrpcUtil::BearerToken.new(token: token)
+        def initialize(target:, credentials: nil, interceptors: [], options: {}, timeout: nil)
           creds = credentials || GRPC::Core::ChannelCredentials.new
 
           @acl_service = ACLService::Stub.new(
             target,
             creds,
             timeout: timeout,
-            interceptors: [bearer],
+            interceptors: interceptors,
             channel_args: options,
           )
           @developer_service = DeveloperService::Stub.new(
             target,
             creds,
             timeout: timeout,
-            interceptors: [bearer],
+            interceptors: interceptors,
             channel_args: options,
           )
           @namespace_service = NamespaceService::Stub.new(
             target,
             creds,
             timeout: timeout,
-            interceptors: [bearer],
+            interceptors: interceptors,
             channel_args: options,
+          )
           @watch_service = WatchService::Stub.new(
             target,
             creds,
             timeout: timeout,
-            interceptors: [bearer],
+            interceptors: interceptors,
             channel_args: options,
           )
         end

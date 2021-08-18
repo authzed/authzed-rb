@@ -60,9 +60,10 @@ In order to successfully connect, you will have to provide a [Bearer Token] with
 ```rb
 require 'authzed'
 
+
 client = Authzed::Api::V0::Client.new(
     target: 'grpc.authzed.com:443',
-    token: 't_your_token_here_1234567deadbeef',
+    interceptors: [Authzed::GrpcUtil::BearerToken.new(token: 't_your_token_here_1234567deadbeef')],
 )
 ```
 
