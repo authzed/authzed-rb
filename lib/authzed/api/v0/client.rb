@@ -38,14 +38,14 @@ module Authzed
             channel_args: options,
           )
         end
-      end
 
-      class User
-        def initialize(namespace:, object_id:)
-          Authzed::Api::V0::ObjectAndRelation.new(
-            namespace: namespace,
-            object_id: object_id,
-            relation: '...',
+        def self.user(namespace:, object_id:)
+          Authzed::Api::V0::User.new(
+            userset: Authzed::Api::V0::ObjectAndRelation.new(
+              namespace: namespace,
+              object_id: object_id,
+              relation: '...',
+            )
           )
         end
       end

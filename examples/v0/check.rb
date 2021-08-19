@@ -1,8 +1,8 @@
 require 'authzed'
 
 # See write.rb example for user relationships
-emilia = Authzed::Api::V0::User.new(namespace: 'blog/user', object_id: 'emilia')
-beatrice = Authzed::Api::V0::User.new(namespace: 'blog/user', object_id: 'beatrice')
+emilia = Authzed::Api::V0::Client.user(namespace: 'blog/user', object_id: 'emilia')
+beatrice = Authzed::Api::V0::Client.user(namespace: 'blog/user', object_id: 'beatrice')
 
 post_one_reader = Authzed::Api::V0::ObjectAndRelation.new(
   namespace: 'blog/post',

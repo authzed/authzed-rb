@@ -10,7 +10,7 @@ module Authzed
         def initialize(target:, credentials: nil, interceptors: [], options: {}, timeout: nil)
           creds = credentials || GRPC::Core::ChannelCredentials.new
 
-          @schema_service = Authzed::Api::V1alpha1::SchemaService::Service::Stub.new(
+          @schema_service = Authzed::Api::V1alpha1::SchemaService::Stub.new(
             target,
             creds,
             timeout: timeout,

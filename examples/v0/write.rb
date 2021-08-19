@@ -9,10 +9,10 @@ client.acl_service.write(
   Authzed::Api::V0::WriteRequest.new(
     updates: [
       # Emilia is a Writer on Post 1
-      Authzed::Api::V0::RelationTupleUpdate(
+      Authzed::Api::V0::RelationTupleUpdate.new(
         operation: Authzed::Api::V0::RelationTupleUpdate::Operation::CREATE,
-        tuple: RelationTuple(
-          user: Authzed::Api::V0::User.new(namespace: 'blog/user', object_id: 'emilia'),
+        tuple: Authzed::Api::V0::RelationTuple.new(
+          user: Authzed::Api::V0::Client.user(namespace: 'blog/user', object_id: 'emilia'),
           object_and_relation: Authzed::Api::V0::ObjectAndRelation.new(
             namespace: 'blog/post',
             object_id: '1',
@@ -21,10 +21,10 @@ client.acl_service.write(
         ),
       ),
       # Beatrice is a Reader on Post 1
-      Authzed::Api::V0::RelationTupleUpdate(
+      Authzed::Api::V0::RelationTupleUpdate.new(
         operation: Authzed::Api::V0::RelationTupleUpdate::Operation::CREATE,
-        tuple: RelationTuple(
-          user: Authzed::Api::V0::User.new(namespace: 'blog/user', object_id: 'beatrice'),
+        tuple: Authzed::Api::V0::RelationTuple.new(
+          user: Authzed::Api::V0::Client.user(namespace: 'blog/user', object_id: 'beatrice'),
           object_and_relation: Authzed::Api::V0::ObjectAndRelation.new(
             namespace: 'blog/post',
             object_id: '1',

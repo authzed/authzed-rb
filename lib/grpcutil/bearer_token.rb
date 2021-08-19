@@ -7,6 +7,8 @@ module Authzed
       AUTHORIZATION_HEADER = 'authorization'
       SCHEMA = 'Bearer'
 
+      attr_reader :token
+
       def initialize(token:)
         @token = token
       end
