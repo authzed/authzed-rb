@@ -58,11 +58,29 @@ In order to successfully connect, you will have to provide a [Bearer Token] with
 [Authzed Dashboard]: https://app.authzed.com
 
 ```rb
-TODO
+require 'authzed'
+
+
+client = Authzed::Api::V0::Client.new(
+    target: 'grpc.authzed.com:443',
+    interceptors: [Authzed::GrpcUtil::BearerToken.new(token: 't_your_token_here_1234567deadbeef')],
+)
 ```
 
 ### Performing an API call
 
 ```rb
-TODO
+require 'authzed'
+
+emilia = Authzed::Api::V0::User.new(namespace: 'blog/user', object_id: 'emilia')
+read_first_post = Authzed::Api::V0::ObjectAndRelation.new(
+    namespace: 'blog/post',
+    object_id: '1',
+    relation: 'read'
+)
+
+# Is Emilia in the set of users that can read post #1?
+resp = client.acl_service.check(
+  Authzed::Api::V0::CheckRequest.new(test_userset: read_first_post, user: emilia)
+)
 ```
