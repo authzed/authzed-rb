@@ -12,7 +12,7 @@ client.acl_service.write(
       Authzed::Api::V0::RelationTupleUpdate.new(
         operation: Authzed::Api::V0::RelationTupleUpdate::Operation::CREATE,
         tuple: Authzed::Api::V0::RelationTuple.new(
-          user: Authzed::Api::V0::Client.user(namespace: 'blog/user', object_id: 'emilia'),
+          user: Authzed::Api::V0::User.for(namespace: 'blog/user', object_id: 'emilia'),
           object_and_relation: Authzed::Api::V0::ObjectAndRelation.new(
             namespace: 'blog/post',
             object_id: '1',
@@ -24,7 +24,7 @@ client.acl_service.write(
       Authzed::Api::V0::RelationTupleUpdate.new(
         operation: Authzed::Api::V0::RelationTupleUpdate::Operation::CREATE,
         tuple: Authzed::Api::V0::RelationTuple.new(
-          user: Authzed::Api::V0::Client.user(namespace: 'blog/user', object_id: 'beatrice'),
+          user: Authzed::Api::V0::User.for(namespace: 'blog/user', object_id: 'beatrice'),
           object_and_relation: Authzed::Api::V0::ObjectAndRelation.new(
             namespace: 'blog/post',
             object_id: '1',

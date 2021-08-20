@@ -38,17 +38,24 @@ module Authzed
             channel_args: options,
           )
         end
+      end
 
-        def self.user(namespace:, object_id:)
-          Authzed::Api::V0::User.new(
-            userset: Authzed::Api::V0::ObjectAndRelation.new(
-              namespace: namespace,
-              object_id: object_id,
-              relation: '...',
+      # Utility method for creating usersets
+      module UserPatch
+        def self.included(base)
+          def base.for(namespace:, object_id:)
+            Authzed::Api::V0::User.new(
+              userset: Authzed::Api::V0::ObjectAndRelation.new(
+                namespace: namespace,
+                object_id: object_id,
+                relation: '...',
+              )
             )
-          )
+          end
         end
       end
+
+      User.include(UserPatch)
     end
   end
 end
