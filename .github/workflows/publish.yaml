@@ -1,0 +1,23 @@
+name: "Publish gem to Rubygems"
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  release:
+    runs-on: "ubuntu-18.04"
+    steps:
+      - uses: "actions/checkout@v2"
+      - name: "Set up Ruby 2.6"
+        uses: "actions/setup-ruby@v1"
+        with:
+          ruby-version: "2.6"
+      - name: "Install deps"
+        run: |
+          gem install bundler
+          bundle install
+      - name: "Build and publish to Rubygems"
+        uses: "cadwallion/publish-rubygems-action@v1.0.0"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          RUBYGEMS_API_KEY : "${{ secrets.RUBYGEMS_API_KEY }}"

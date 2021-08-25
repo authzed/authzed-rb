@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "Authzed is the best way to build robust and scalable permissions systems. See https://authzed.com for more details."
   s.authors     = ["Authzed"]
   s.email       = 'support@authzed.com'
-  s.files       = Dir.glob(%w[LICENSE.txt README.md {exe,lib}/**/*]).reject { |f| File.directory?(f) }
+  s.files       = Dir.glob(%w[LICENSE README.md {exe,lib}/**/*]).reject { |f| File.directory?(f) }
   s.homepage    = 'https://authzed.com'
   s.metadata    = { 
     "bug_tracker_uri" => "https://github.com/authzed/authzed-rb/issues",
