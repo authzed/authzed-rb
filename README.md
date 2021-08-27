@@ -72,7 +72,7 @@ client = Authzed::Api::V0::Client.new(
 ```rb
 require 'authzed'
 
-emilia = Authzed::Api::V0::User.new(namespace: 'blog/user', object_id: 'emilia')
+emilia = Authzed::Api::V0::User.for(namespace: 'blog/user', object_id: 'emilia')
 read_first_post = Authzed::Api::V0::ObjectAndRelation.new(
     namespace: 'blog/post',
     object_id: '1',
