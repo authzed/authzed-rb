@@ -18,6 +18,7 @@ module Authzed
 
           rpc :ReadConfig, ::Authzed::Api::V0::ReadConfigRequest, ::Authzed::Api::V0::ReadConfigResponse
           rpc :WriteConfig, ::Authzed::Api::V0::WriteConfigRequest, ::Authzed::Api::V0::WriteConfigResponse
+          rpc :DeleteConfigs, ::Authzed::Api::V0::DeleteConfigsRequest, ::Authzed::Api::V0::DeleteConfigsResponse
         end
 
         Stub = Service.rpc_stub_class
