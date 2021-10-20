@@ -26,14 +26,14 @@ definition user {}
 describe "Client", "#schema" do
   context "with an empty database" do
     it "writes the schema" do
-      client = Authzed::Api::V1alpha1::Client.new(
+      client = Authzed::Api::V1::Client.new(
         target: "localhost:50051",
         credentials: :this_channel_is_insecure,
         interceptors: [Authzed::GrpcUtil::BearerToken.new(token: "somerandomkeyhere")],
       )
 
       resp = client.schema_service.write_schema(
-        Authzed::Api::V1alpha1::WriteSchemaRequest.new(schema: test_schema)
+        Authzed::Api::V1::WriteSchemaRequest.new(schema: test_schema)
       )
       expect(resp.object_definitions_names.length).to eq 2
       expect(resp.object_definitions_names).to include "document"
@@ -45,17 +45,17 @@ end
 describe "Client", "#schema" do
   context "with an existing schema" do
     it "reads the schema" do
-      client = Authzed::Api::V1alpha1::Client.new(
+      client = Authzed::Api::V1::Client.new(
         target: "localhost:50051",
         credentials: :this_channel_is_insecure,
         interceptors: [Authzed::GrpcUtil::BearerToken.new(token: "somerandomkeyhere")],
       )
       client.schema_service.write_schema(
-        Authzed::Api::V1alpha1::WriteSchemaRequest.new(schema: test_schema)
+        Authzed::Api::V1::WriteSchemaRequest.new(schema: test_schema)
       )
 
       resp = client.schema_service.read_schema(
-        Authzed::Api::V1alpha1::ReadSchemaRequest.new(
+        Authzed::Api::V1::ReadSchemaRequest.new(
           object_definitions_names: ['user'],
         )
       )

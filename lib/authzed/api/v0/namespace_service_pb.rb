@@ -22,6 +22,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "authzed.api.v0.WriteConfigResponse" do
       optional :revision, :message, 1, "authzed.api.v0.Zookie", json_name: "revision"
     end
+    add_message "authzed.api.v0.DeleteConfigsRequest" do
+      repeated :namespaces, :string, 1, json_name: "namespaces"
+    end
+    add_message "authzed.api.v0.DeleteConfigsResponse" do
+      optional :revision, :message, 1, "authzed.api.v0.Zookie", json_name: "revision"
+    end
   end
 end
 
@@ -32,6 +38,8 @@ module Authzed
       ReadConfigResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ReadConfigResponse").msgclass
       WriteConfigRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.WriteConfigRequest").msgclass
       WriteConfigResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.WriteConfigResponse").msgclass
+      DeleteConfigsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.DeleteConfigsRequest").msgclass
+      DeleteConfigsResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.DeleteConfigsResponse").msgclass
     end
   end
 end
