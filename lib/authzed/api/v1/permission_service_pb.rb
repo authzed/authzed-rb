@@ -8,10 +8,10 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/permission_service.proto", :syntax => :proto3) do
     add_message "authzed.api.v1.Consistency" do
       oneof :requirement do
-        optional :minimize_latency, :bool, 1, nil, json_name: "minimizeLatency"
+        optional :minimize_latency, :bool, 1, json_name: "minimizeLatency"
         optional :at_least_as_fresh, :message, 2, "authzed.api.v1.ZedToken", json_name: "atLeastAsFresh"
         optional :at_exact_snapshot, :message, 3, "authzed.api.v1.ZedToken", json_name: "atExactSnapshot"
-        optional :fully_consistent, :bool, 4, nil, json_name: "fullyConsistent"
+        optional :fully_consistent, :bool, 4, json_name: "fullyConsistent"
       end
     end
     add_message "authzed.api.v1.RelationshipFilter" do
