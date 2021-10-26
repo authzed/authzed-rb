@@ -2,11 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.4.4)
-    google-protobuf (3.17.3)
-    googleapis-common-protos-types (1.0.6)
+    google-protobuf (3.19.0)
+    googleapis-common-protos-types (1.3.0)
       google-protobuf (~> 3.14)
-    grpc (1.38.0)
-      google-protobuf (~> 3.15)
+    grpc (1.41.0)
+      google-protobuf (~> 3.17)
       googleapis-common-protos-types (~> 1.0)
     grpc-tools (1.38.0)
     rspec (3.10.0)
@@ -27,7 +27,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  grpc
+  grpc (~> 1.41)
   grpc-tools
   rspec (~> 3.0)
 

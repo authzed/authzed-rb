@@ -61,9 +61,10 @@ In order to successfully connect, you will have to provide a [Bearer Token] with
 require 'authzed'
 
 
-client = Authzed::Api::V0::Client.new(
-    target: 'grpc.authzed.com:443',
-    interceptors: [Authzed::GrpcUtil::BearerToken.new(token: 't_your_token_here_1234567deadbeef')],
+client = Authzed::Api::V1::Client.new(
+    target: "localhost:50051",
+    credentials: :this_channel_is_insecure,
+    interceptors: [Authzed::GrpcUtil::BearerToken.new(token: "somerandomkeyhere")],
 )
 ```
 
@@ -72,15 +73,19 @@ client = Authzed::Api::V0::Client.new(
 ```rb
 require 'authzed'
 
-emilia = Authzed::Api::V0::User.for(namespace: 'blog/user', object_id: 'emilia')
-read_first_post = Authzed::Api::V0::ObjectAndRelation.new(
-    namespace: 'blog/post',
-    object_id: '1',
-    relation: 'read'
-)
-
 # Is Emilia in the set of users that can read post #1?
-resp = client.acl_service.check(
-  Authzed::Api::V0::CheckRequest.new(test_userset: read_first_post, user: emilia)
+resp = client.permissions_service.check_permission(
+  Authzed::Api::V1::CheckPermissionRequest.new(
+    consistency: Authzed::Api::V1::Consistency.new(
+      at_least_as_fresh: Authzed::Api::V1::ZedToken.new(token: zed_token)
+    ),
+    resource: Authzed::Api::V1::ObjectReference.new(object_type: 'blog/post', object_id: '1'),
+    permission: 'read',
+    subject: Authzed::Api::V1::SubjectReference.new(
+      object: Authzed::Api::V1::ObjectReference.new(object_type: 'blog/user', object_id: 'emilia')
+    )
+  )
 )
+can_read = Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship)) ==
+  Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
 ```

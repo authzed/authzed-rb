@@ -7,6 +7,13 @@ require 'authzed/api/v0/core_pb'
 require 'authzed/api/v0/namespace_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/developer.proto", :syntax => :proto3) do
+    add_message "authzed.api.v0.FormatSchemaRequest" do
+      optional :schema, :string, 1, json_name: "schema"
+    end
+    add_message "authzed.api.v0.FormatSchemaResponse" do
+      optional :error, :message, 1, "authzed.api.v0.DeveloperError", json_name: "error"
+      optional :formatted_schema, :string, 2, json_name: "formattedSchema"
+    end
     add_message "authzed.api.v0.UpgradeSchemaRequest" do
       repeated :namespace_configs, :string, 1, json_name: "namespaceConfigs"
     end
@@ -42,6 +49,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "authzed.api.v0.RequestContext" do
       optional :schema, :string, 1, json_name: "schema"
       repeated :relationships, :message, 2, "authzed.api.v0.RelationTuple", json_name: "relationships"
+      repeated :legacy_ns_configs, :message, 3, "authzed.api.v0.NamespaceDefinition", json_name: "legacyNsConfigs"
     end
     add_message "authzed.api.v0.EditCheckRequest" do
       optional :context, :message, 1, "authzed.api.v0.RequestContext", json_name: "context"
@@ -102,6 +110,8 @@ end
 module Authzed
   module Api
     module V0
+      FormatSchemaRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.FormatSchemaRequest").msgclass
+      FormatSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.FormatSchemaResponse").msgclass
       UpgradeSchemaRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.UpgradeSchemaRequest").msgclass
       UpgradeSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.UpgradeSchemaResponse").msgclass
       ShareRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ShareRequest").msgclass
