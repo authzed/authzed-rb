@@ -14,6 +14,7 @@ This repository houses the Ruby client library for Authzed.
 Developers create a schema that models their permissions requirements and use a client library, such as this one, to apply the schema to the database, insert data into the database, and query the data to efficiently check permissions in their applications.
 
 Supported client API versions:
+- [v1](https://docs.authzed.com/reference/api#authzedapiv1)
 - [v1alpha1](https://docs.authzed.com/reference/api#authzedapiv1alpha1)
 - [v0](https://docs.authzed.com/reference/api#authzedapiv0)
 
@@ -31,10 +32,10 @@ See [CONTRIBUTING.md] for instructions on how to contribute and perform common t
 
 We highly recommend following the **[Protecting Your First App]** guide to learn the latest best practice to integrate an application with Authzed.
 
-If you're interested in examples of a specific version of the API, they can be found in their respective folders in the [examples directory].
+If you're interested in example uses of the API, see the spec files in the [spec directory].
 
 [Protecting Your First App]: https://docs.authzed.com/guides/first-app
-[examples directory]: /examples
+[spec directory]: /spec
 
 ## Basic Usage
 
