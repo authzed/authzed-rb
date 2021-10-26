@@ -83,7 +83,7 @@ describe 'Client', '#permissions' do
       )
     end
 
-    it 'can write a relationship' do
+    it 'can read and write a relationship' do
       resp = client.permissions_service.read_relationships(
         Authzed::Api::V1::ReadRelationshipsRequest.new(
           consistency: Authzed::Api::V1::Consistency.new(fully_consistent: true),
@@ -117,6 +117,77 @@ describe 'Client', '#permissions' do
         )
       )
       expect(resp.count).to eq 1
+    end
+
+    context 'with existing relationships' do
+      let(:emilia) do
+        Authzed::Api::V1::SubjectReference.new(
+          object: Authzed::Api::V1::ObjectReference.new(object_type: 'user', object_id: 'emilia')
+        )
+      end
+      let(:beatrice) do
+        Authzed::Api::V1::SubjectReference.new(
+          object: Authzed::Api::V1::ObjectReference.new(object_type: 'user', object_id: 'beatrice')
+        )
+      end
+      let(:document_resource) do
+        Authzed::Api::V1::ObjectReference.new(object_type: 'document', object_id: '1')
+      end
+      let(:write_relationship_request) do
+        Authzed::Api::V1::WriteRelationshipsRequest.new(
+          updates: [
+            Authzed::Api::V1::RelationshipUpdate.new(
+              operation: Authzed::Api::V1::RelationshipUpdate::Operation::OPERATION_CREATE,
+              relationship: Authzed::Api::V1::Relationship.new(
+                resource: document_resource,
+                relation: 'writer',
+                subject: emilia
+              )
+            ),
+            Authzed::Api::V1::RelationshipUpdate.new(
+              operation: Authzed::Api::V1::RelationshipUpdate::Operation::OPERATION_CREATE,
+              relationship: Authzed::Api::V1::Relationship.new(
+                resource: document_resource,
+                relation: 'reader',
+                subject: beatrice
+              )
+            )
+          ]
+        )
+      end
+      let(:zed_token) do
+        client.permissions_service.write_relationships(write_relationship_request).written_at.token
+      end
+
+      it 'can check permissions' do
+        resp = client.permissions_service.check_permission(
+          Authzed::Api::V1::CheckPermissionRequest.new(
+            consistency: Authzed::Api::V1::Consistency.new(
+              at_least_as_fresh: Authzed::Api::V1::ZedToken.new(token: zed_token)
+            ),
+            resource: document_resource,
+            permission: 'view',
+            subject: emilia
+          )
+        )
+        expect(Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship)).to eq(
+          Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
+        )
+
+        resp = client.permissions_service.check_permission(
+          Authzed::Api::V1::CheckPermissionRequest.new(
+            consistency: Authzed::Api::V1::Consistency.new(
+              at_least_as_fresh: Authzed::Api::V1::ZedToken.new(token: zed_token)
+            ),
+            resource: document_resource,
+            permission: 'edit',
+            subject: beatrice
+          )
+        )
+        expect(Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship)).to eq(
+          Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_NO_PERMISSION
+        )
+      end
     end
   end
 end
