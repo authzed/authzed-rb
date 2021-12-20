@@ -3,6 +3,7 @@
 
 require 'google/protobuf'
 
+require 'google/api/annotations_pb'
 require 'authzed/api/v1/core_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/permission_service.proto", :syntax => :proto3) do

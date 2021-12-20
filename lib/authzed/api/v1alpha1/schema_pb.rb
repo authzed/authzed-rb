@@ -10,12 +10,15 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "authzed.api.v1alpha1.ReadSchemaResponse" do
       repeated :object_definitions, :string, 1, json_name: "objectDefinitions"
+      optional :computed_definitions_revision, :string, 2, json_name: "computedDefinitionsRevision"
     end
     add_message "authzed.api.v1alpha1.WriteSchemaRequest" do
       optional :schema, :string, 1, json_name: "schema"
+      optional :optional_definitions_revision_precondition, :string, 2, json_name: "optionalDefinitionsRevisionPrecondition"
     end
     add_message "authzed.api.v1alpha1.WriteSchemaResponse" do
       repeated :object_definitions_names, :string, 1, json_name: "objectDefinitionsNames"
+      optional :computed_definitions_revision, :string, 2, json_name: "computedDefinitionsRevision"
     end
   end
 end

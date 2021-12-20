@@ -3,11 +3,12 @@
 
 require 'google/protobuf'
 
+require 'google/api/annotations_pb'
 require 'authzed/api/v1/core_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/watch_service.proto", :syntax => :proto3) do
     add_message "authzed.api.v1.WatchRequest" do
-      repeated :object_types, :string, 1, json_name: "objectTypes"
+      repeated :optional_object_types, :string, 1, json_name: "optionalObjectTypes"
       optional :optional_start_cursor, :message, 2, "authzed.api.v1.ZedToken", json_name: "optionalStartCursor"
     end
     add_message "authzed.api.v1.WatchResponse" do

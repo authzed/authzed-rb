@@ -22,7 +22,16 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :metadata, :message, 4, "authzed.api.v0.Metadata", json_name: "metadata"
     end
     add_message "authzed.api.v0.TypeInformation" do
-      repeated :allowed_direct_relations, :message, 1, "authzed.api.v0.RelationReference", json_name: "allowedDirectRelations"
+      repeated :allowed_direct_relations, :message, 1, "authzed.api.v0.AllowedRelation", json_name: "allowedDirectRelations"
+    end
+    add_message "authzed.api.v0.AllowedRelation" do
+      optional :namespace, :string, 1, json_name: "namespace"
+      oneof :relation_or_wildcard do
+        optional :relation, :string, 3, json_name: "relation"
+        optional :public_wildcard, :message, 4, "authzed.api.v0.AllowedRelation.PublicWildcard", json_name: "publicWildcard"
+      end
+    end
+    add_message "authzed.api.v0.AllowedRelation.PublicWildcard" do
     end
     add_message "authzed.api.v0.UsersetRewrite" do
       oneof :rewrite_operation do
@@ -69,6 +78,8 @@ module Authzed
       NamespaceDefinition = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.NamespaceDefinition").msgclass
       Relation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.Relation").msgclass
       TypeInformation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.TypeInformation").msgclass
+      AllowedRelation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.AllowedRelation").msgclass
+      AllowedRelation::PublicWildcard = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.AllowedRelation.PublicWildcard").msgclass
       UsersetRewrite = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.UsersetRewrite").msgclass
       SetOperation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.SetOperation").msgclass
       SetOperation::Child = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.SetOperation.Child").msgclass
