@@ -1,3 +1,4 @@
+# v0 API is deprecated
 require 'authzed'
 
 # See write.rb example for user relationships

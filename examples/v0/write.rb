@@ -1,3 +1,4 @@
+# v0 API is deprecated
 require 'authzed'
 
 client = Authzed::Api::V0::Client.new(
