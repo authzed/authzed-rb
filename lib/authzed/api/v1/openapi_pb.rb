@@ -4,6 +4,7 @@
 require 'google/protobuf'
 
 require 'protoc-gen-openapiv2/options/annotations_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/openapi.proto", :syntax => :proto3) do
   end

@@ -5,6 +5,7 @@ require 'google/protobuf'
 
 require 'authzed/api/v0/core_pb'
 require 'authzed/api/v0/namespace_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/developer.proto", :syntax => :proto3) do
     add_message "authzed.api.v0.FormatSchemaRequest" do

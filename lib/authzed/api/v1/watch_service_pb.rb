@@ -4,7 +4,9 @@
 require 'google/protobuf'
 
 require 'google/api/annotations_pb'
+require 'validate/validate_pb'
 require 'authzed/api/v1/core_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/watch_service.proto", :syntax => :proto3) do
     add_message "authzed.api.v1.WatchRequest" do

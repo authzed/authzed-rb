@@ -3,6 +3,8 @@
 
 require 'google/protobuf'
 
+require 'validate/validate_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/core.proto", :syntax => :proto3) do
     add_message "authzed.api.v0.RelationTuple" do

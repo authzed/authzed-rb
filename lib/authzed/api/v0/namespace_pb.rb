@@ -4,7 +4,9 @@
 require 'google/protobuf'
 
 require 'google/protobuf/any_pb'
+require 'validate/validate_pb'
 require 'authzed/api/v0/core_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/namespace.proto", :syntax => :proto3) do
     add_message "authzed.api.v0.Metadata" do

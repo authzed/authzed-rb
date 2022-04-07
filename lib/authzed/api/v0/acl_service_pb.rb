@@ -3,7 +3,9 @@
 
 require 'google/protobuf'
 
+require 'validate/validate_pb'
 require 'authzed/api/v0/core_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/acl_service.proto", :syntax => :proto3) do
     add_message "authzed.api.v0.RelationTupleFilter" do
