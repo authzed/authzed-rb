@@ -8,8 +8,8 @@ module Authzed
   module Api
     module V1
       module PermissionsService
-        # PermissionsService is used to perform permissions and relationship
-        # operations.
+        # PermissionsService implements a set of RPCs that perform operations on
+        # relationships and permissions.
         class Service
 
           include ::GRPC::GenericService
@@ -21,22 +21,23 @@ module Authzed
           # ReadRelationships reads a set of the relationships matching one or more
           # filters.
           rpc :ReadRelationships, ::Authzed::Api::V1::ReadRelationshipsRequest, stream(::Authzed::Api::V1::ReadRelationshipsResponse)
-          # WriteRelationships writes and/or deletes a set of specified relationships,
-          # with an optional set of precondition relationships that must exist before
-          # the operation can commit.
+          # WriteRelationships atomically writes and/or deletes a set of specified
+          # relationships. An optional set of preconditions can be provided that must
+          # be satisfied for the operation to commit.
           rpc :WriteRelationships, ::Authzed::Api::V1::WriteRelationshipsRequest, ::Authzed::Api::V1::WriteRelationshipsResponse
-          # DeleteRelationships deletes relationships matching one or more filters, in
-          # bulk.
+          # DeleteRelationships atomically bulk deletes relationships matching one or
+          # more filters. An optional set of preconditions can be provided that must
+          # be satisfied for the operation to commit.
           rpc :DeleteRelationships, ::Authzed::Api::V1::DeleteRelationshipsRequest, ::Authzed::Api::V1::DeleteRelationshipsResponse
-          # CheckPermission checks whether a subject has a particular permission or is
-          # a member of a particular relation, on a given resource.
+          # CheckPermission determines for a given resource whether a subject computes
+          # to having a permission or is a direct member of a particular relation.
           rpc :CheckPermission, ::Authzed::Api::V1::CheckPermissionRequest, ::Authzed::Api::V1::CheckPermissionResponse
-          # ExpandPermissionTree expands the relationships reachable from a particular
-          # permission or relation of a given resource.
+          # ExpandPermissionTree reveals the graph structure for a resource's
+          # permission or relation. This RPC does not recurse infinitely deep and may
+          # require multiple calls to fully unnest a deeply nested graph.
           rpc :ExpandPermissionTree, ::Authzed::Api::V1::ExpandPermissionTreeRequest, ::Authzed::Api::V1::ExpandPermissionTreeResponse
-          # LookupResources returns the IDs of all resources on which the specified
-          # subject has permission or on which the specified subject is a member of the
-          # relation.
+          # LookupResources returns all the resources of a given type that a subject
+          # can access whether via a computed permission or relation membership.
           rpc :LookupResources, ::Authzed::Api::V1::LookupResourcesRequest, stream(::Authzed::Api::V1::LookupResourcesResponse)
         end
 
