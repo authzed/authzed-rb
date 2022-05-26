@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'authzed'
-  s.version     = '0.2.1'
+  s.version     = '0.3.0'
   s.licenses    = ['Apache-2.0']
   s.summary     = "Ruby bindings for Authzed API"
   s.description = "Authzed is the best way to build robust and scalable permissions systems. See https://authzed.com for more details."
