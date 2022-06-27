@@ -1,5 +1,7 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'grpc', '~> 1.41'
-gem 'grpc-tools'
-gem 'rspec', '~> 3.0'
+gemspec
+
+group :development, :test do
+  gem "rake"
+end
