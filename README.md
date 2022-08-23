@@ -1,32 +1,41 @@
 # Authzed Ruby Client
 
 [![Ruby Gems](https://img.shields.io/gem/v/authzed?include_prereleases)](https://rubygems.org/gems/authzed)
+[![Docs](https://img.shields.io/badge/docs-authzed.com-%234B4B6C "Authzed Documentation")](https://docs.authzed.com)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://github.com/authzed/authzed-rb/workflows/build/badge.svg)](https://github.com/authzed/authzed-rb/actions)
-[![Mailing List](https://img.shields.io/badge/email-google%20groups-4285F4)](https://groups.google.com/g/authzed-oss)
 [![Discord Server](https://img.shields.io/discord/844600078504951838?color=7289da&logo=discord "Discord Server")](https://discord.gg/jTysUaxXzM)
 [![Twitter](https://img.shields.io/twitter/follow/authzed?color=%23179CF0&logo=twitter&style=flat-square)](https://twitter.com/authzed)
 
-This repository houses the Ruby client library for Authzed.
+This repository houses the official Ruby client library for Authzed and SpiceDB.
 
-[Authzed] is a database and service that stores, computes, and validates your application's permissions.
+[SpiceDB] is a database system for managing security-critical permissions checking.
 
-Developers create a schema that models their permissions requirements and use a client library, such as this one, to apply the schema to the database, insert data into the database, and query the data to efficiently check permissions in their applications.
+SpiceDB acts as a centralized service that stores authorization data.
+Once stored, data can be performantly queried to answer questions such as "Does this user have access to this resource?" and "What are all the resources this user has access to?".
+
+[Authzed] operates the globally available, serverless database platform for SpiceDB.
 
 Supported client API versions:
-- [v1](https://docs.authzed.com/reference/api#authzedapiv1)
-- [v1alpha1](https://docs.authzed.com/reference/api#authzedapiv1alpha1)
-- "v0" - deprecated
+- [v1](https://buf.build/authzed/api/docs/main/authzed.api.v1)
+- [v1alpha1](https://buf.build/authzed/api/docs/main/authzed.api.v1alpha1)
 
-You can find more info on each API on the [Authzed API reference documentation].
-Additionally, Protobuf API documentation can be found on the [Buf Registry Authzed API repository].
+You can find more info about the API in the [Authzed Documentation API Reference] or the [Authzed API Buf Registry repository].
 
 See [CONTRIBUTING.md] for instructions on how to contribute and perform common tasks like building the project and running tests.
 
+[SpiceDB]: https://github.com/authzed/spicedb
 [Authzed]: https://authzed.com
-[Authzed API Reference documentation]: https://docs.authzed.com/reference/api
-[Buf Registry Authzed API repository]: https://buf.build/authzed/api/docs/main
+[Authzed Documentation API Reference]: https://docs.authzed.com/reference/api
+[Authzed API Buf Registry repository]: https://buf.build/authzed/api
 [CONTRIBUTING.md]: CONTRIBUTING.md
+[Discord]: https://authzed.com/discord
+[Urgent]: https://github.com/authzed/authzed-rb/labels/priority%2F0%20urgent
+[High]: https://github.com/authzed/authzed-rb/labels/priority%2F1%20high
+[Medium]: https://github.com/authzed/authzed-rb/labels/priority%2F2%20medium
+[Low]: https://github.com/authzed/authzed-rb/labels/priority%2F3%20low
+[Maybe]: https://github.com/authzed/authzed-rb/labels/priority%2F4%20maybe
+[good first issues]: https://github.com/authzed-rb/spicedb/labels/hint%2Fgood%20first%20issue
 
 ## Getting Started
 
