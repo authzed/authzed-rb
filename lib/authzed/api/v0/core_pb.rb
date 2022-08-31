@@ -25,39 +25,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :userset, :message, 2, "authzed.api.v0.ObjectAndRelation", json_name: "userset"
       end
     end
-    add_message "authzed.api.v0.Zookie" do
-      optional :token, :string, 1, json_name: "token"
-    end
-    add_message "authzed.api.v0.RelationTupleUpdate" do
-      optional :operation, :enum, 1, "authzed.api.v0.RelationTupleUpdate.Operation", json_name: "operation"
-      optional :tuple, :message, 2, "authzed.api.v0.RelationTuple", json_name: "tuple"
-    end
-    add_enum "authzed.api.v0.RelationTupleUpdate.Operation" do
-      value :UNKNOWN, 0
-      value :CREATE, 1
-      value :TOUCH, 2
-      value :DELETE, 3
-    end
-    add_message "authzed.api.v0.RelationTupleTreeNode" do
-      optional :expanded, :message, 3, "authzed.api.v0.ObjectAndRelation", json_name: "expanded"
-      oneof :node_type do
-        optional :intermediate_node, :message, 1, "authzed.api.v0.SetOperationUserset", json_name: "intermediateNode"
-        optional :leaf_node, :message, 2, "authzed.api.v0.DirectUserset", json_name: "leafNode"
-      end
-    end
-    add_message "authzed.api.v0.SetOperationUserset" do
-      optional :operation, :enum, 1, "authzed.api.v0.SetOperationUserset.Operation", json_name: "operation"
-      repeated :child_nodes, :message, 2, "authzed.api.v0.RelationTupleTreeNode", json_name: "childNodes"
-    end
-    add_enum "authzed.api.v0.SetOperationUserset.Operation" do
-      value :INVALID, 0
-      value :UNION, 1
-      value :INTERSECTION, 2
-      value :EXCLUSION, 3
-    end
-    add_message "authzed.api.v0.DirectUserset" do
-      repeated :users, :message, 1, "authzed.api.v0.User", json_name: "users"
-    end
   end
 end
 
@@ -68,13 +35,6 @@ module Authzed
       ObjectAndRelation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.ObjectAndRelation").msgclass
       RelationReference = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.RelationReference").msgclass
       User = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.User").msgclass
-      Zookie = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.Zookie").msgclass
-      RelationTupleUpdate = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.RelationTupleUpdate").msgclass
-      RelationTupleUpdate::Operation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.RelationTupleUpdate.Operation").enummodule
-      RelationTupleTreeNode = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.RelationTupleTreeNode").msgclass
-      SetOperationUserset = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.SetOperationUserset").msgclass
-      SetOperationUserset::Operation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.SetOperationUserset.Operation").enummodule
-      DirectUserset = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v0.DirectUserset").msgclass
     end
   end
 end

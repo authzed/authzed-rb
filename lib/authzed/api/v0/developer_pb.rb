@@ -4,7 +4,6 @@
 require 'google/protobuf'
 
 require 'authzed/api/v0/core_pb'
-require 'authzed/api/v0/namespace_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v0/developer.proto", :syntax => :proto3) do
@@ -50,7 +49,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "authzed.api.v0.RequestContext" do
       optional :schema, :string, 1, json_name: "schema"
       repeated :relationships, :message, 2, "authzed.api.v0.RelationTuple", json_name: "relationships"
-      repeated :legacy_ns_configs, :message, 3, "authzed.api.v0.NamespaceDefinition", json_name: "legacyNsConfigs"
     end
     add_message "authzed.api.v0.EditCheckRequest" do
       optional :context, :message, 1, "authzed.api.v0.RequestContext", json_name: "context"
