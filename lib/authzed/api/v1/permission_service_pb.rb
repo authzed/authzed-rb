@@ -96,6 +96,18 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :looked_up_at, :message, 1, "authzed.api.v1.ZedToken", json_name: "lookedUpAt"
       optional :resource_object_id, :string, 2, json_name: "resourceObjectId"
     end
+    add_message "authzed.api.v1.LookupSubjectsRequest" do
+      optional :consistency, :message, 1, "authzed.api.v1.Consistency", json_name: "consistency"
+      optional :resource, :message, 2, "authzed.api.v1.ObjectReference", json_name: "resource"
+      optional :permission, :string, 3, json_name: "permission"
+      optional :subject_object_type, :string, 4, json_name: "subjectObjectType"
+      optional :optional_subject_relation, :string, 5, json_name: "optionalSubjectRelation"
+    end
+    add_message "authzed.api.v1.LookupSubjectsResponse" do
+      optional :looked_up_at, :message, 1, "authzed.api.v1.ZedToken", json_name: "lookedUpAt"
+      optional :subject_object_id, :string, 2, json_name: "subjectObjectId"
+      repeated :excluded_subject_ids, :string, 3, json_name: "excludedSubjectIds"
+    end
   end
 end
 
@@ -121,6 +133,8 @@ module Authzed
       ExpandPermissionTreeResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ExpandPermissionTreeResponse").msgclass
       LookupResourcesRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupResourcesRequest").msgclass
       LookupResourcesResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupResourcesResponse").msgclass
+      LookupSubjectsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupSubjectsRequest").msgclass
+      LookupSubjectsResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupSubjectsResponse").msgclass
     end
   end
 end

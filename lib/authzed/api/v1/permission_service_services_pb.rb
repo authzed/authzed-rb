@@ -25,8 +25,9 @@ module Authzed
           # relationships. An optional set of preconditions can be provided that must
           # be satisfied for the operation to commit.
           rpc :WriteRelationships, ::Authzed::Api::V1::WriteRelationshipsRequest, ::Authzed::Api::V1::WriteRelationshipsResponse
-          # DeleteRelationships atomically bulk deletes relationships matching one or
-          # more filters. An optional set of preconditions can be provided that must
+          # DeleteRelationships atomically bulk deletes all relationships matching the
+          # provided filter. If no relationships match, none will be deleted and the
+          # operation will succeed. An optional set of preconditions can be provided that must
           # be satisfied for the operation to commit.
           rpc :DeleteRelationships, ::Authzed::Api::V1::DeleteRelationshipsRequest, ::Authzed::Api::V1::DeleteRelationshipsResponse
           # CheckPermission determines for a given resource whether a subject computes
@@ -39,6 +40,9 @@ module Authzed
           # LookupResources returns all the resources of a given type that a subject
           # can access whether via a computed permission or relation membership.
           rpc :LookupResources, ::Authzed::Api::V1::LookupResourcesRequest, stream(::Authzed::Api::V1::LookupResourcesResponse)
+          # LookupSubjects returns all the subjects of a given type that
+          # have access whether via a computed permission or relation membership.
+          rpc :LookupSubjects, ::Authzed::Api::V1::LookupSubjectsRequest, stream(::Authzed::Api::V1::LookupSubjectsResponse)
         end
 
         Stub = Service.rpc_stub_class
