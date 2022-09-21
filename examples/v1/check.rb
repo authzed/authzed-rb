@@ -28,34 +28,38 @@ resp = client.permissions_service.check_permission(
   Authzed::Api::V1::CheckPermissionRequest.new(
     resource: post_one,
     permission: 'read',
-    subject: emilia, 
+    subject: emilia,
   )
 )
-raise unless resp.permissionship == CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
+raise unless Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship) ==
+  Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
 
 resp = client.permissions_service.check_permission(
   Authzed::Api::V1::CheckPermissionRequest.new(
     resource: post_one,
     permission: 'write',
-    subject: emilia, 
+    subject: emilia,
   )
 )
-raise unless resp.permissionship == CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
+raise unless Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship) ==
+  Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
 
 resp = client.permissions_service.check_permission(
   Authzed::Api::V1::CheckPermissionRequest.new(
     resource: post_one,
     permission: 'read',
-    subject: beatrice, 
+    subject: beatrice,
   )
 )
-raise unless resp.permissionship == CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
+raise unless Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship) ==
+  Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
 
 resp = client.permissions_service.check_permission(
   Authzed::Api::V1::CheckPermissionRequest.new(
     resource: post_one,
     permission: 'write',
-    subject: beatrice, 
+    subject: beatrice,
   )
 )
-raise if resp.permissionship == CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
+raise if Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship) ==
+  Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION

@@ -96,6 +96,6 @@ resp = client.permissions_service.check_permission(
     )
   )
 )
-can_read = Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship)) ==
+can_read = Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(resp.permissionship) ==
   Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
 ```
