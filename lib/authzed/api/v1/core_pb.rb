@@ -3,6 +3,7 @@
 
 require 'google/protobuf'
 
+require 'google/protobuf/struct_pb'
 require 'validate/validate_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
@@ -11,6 +12,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :resource, :message, 1, "authzed.api.v1.ObjectReference", json_name: "resource"
       optional :relation, :string, 2, json_name: "relation"
       optional :subject, :message, 3, "authzed.api.v1.SubjectReference", json_name: "subject"
+      optional :optional_caveat, :message, 4, "authzed.api.v1.ContextualizedCaveat", json_name: "optionalCaveat"
+    end
+    add_message "authzed.api.v1.ContextualizedCaveat" do
+      optional :caveat_name, :string, 1, json_name: "caveatName"
+      optional :context, :message, 2, "google.protobuf.Struct", json_name: "context"
     end
     add_message "authzed.api.v1.SubjectReference" do
       optional :object, :message, 1, "authzed.api.v1.ObjectReference", json_name: "object"
@@ -61,6 +67,7 @@ module Authzed
   module Api
     module V1
       Relationship = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.Relationship").msgclass
+      ContextualizedCaveat = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ContextualizedCaveat").msgclass
       SubjectReference = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.SubjectReference").msgclass
       ObjectReference = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ObjectReference").msgclass
       ZedToken = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ZedToken").msgclass

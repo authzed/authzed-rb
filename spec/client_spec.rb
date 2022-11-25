@@ -1,7 +1,6 @@
 require 'authzed'
 
-test_schema = ''"
-/** document represents a document protected by Authzed. */
+test_schema = ''"/** document represents a document protected by Authzed. */
 definition document {
 	/** writer indicates that the user is a writer on the document. */
 	relation writer: user
@@ -20,12 +19,11 @@ definition document {
 }
 
 /** user represents a user that can be granted role(s) */
-definition user {}
-"''
+definition user {}"''
 
 describe 'Client', '#schema' do
   let(:client) do
-    Authzed::Api::V1alpha1::Client.new(
+    Authzed::Api::V1::Client.new(
       target: 'localhost:50051',
       credentials: :this_channel_is_insecure,
       interceptors: [Authzed::GrpcUtil::BearerToken.new(token: unique_token)]
@@ -34,30 +32,24 @@ describe 'Client', '#schema' do
 
   context 'with an empty database', :with_unique_tokens do
     it 'writes the schema' do
-      resp = client.schema_service.write_schema(
-        Authzed::Api::V1alpha1::WriteSchemaRequest.new(schema: test_schema)
+      client.schema_service.write_schema(
+        Authzed::Api::V1::WriteSchemaRequest.new(schema: test_schema)
       )
-      expect(resp.object_definitions_names.length).to eq 2
-      expect(resp.object_definitions_names).to include 'document'
-      expect(resp.object_definitions_names).to include 'user'
     end
   end
 
   context 'with an existing schema', :with_unique_tokens do
     before do
       client.schema_service.write_schema(
-        Authzed::Api::V1alpha1::WriteSchemaRequest.new(schema: test_schema)
+        Authzed::Api::V1::WriteSchemaRequest.new(schema: test_schema)
       )
     end
 
     it 'reads the schema' do
       resp = client.schema_service.read_schema(
-        Authzed::Api::V1alpha1::ReadSchemaRequest.new(
-          object_definitions_names: ['user']
-        )
+        Authzed::Api::V1::ReadSchemaRequest.new
       )
-      expect(resp.object_definitions.length).to eq 1
-      expect(resp.object_definitions[0]).to eq "/** user represents a user that can be granted role(s) */\ndefinition user {}"
+      expect(resp.schema_text).to eq test_schema
     end
   end
 end
@@ -73,13 +65,13 @@ describe 'Client', '#permissions' do
     end
 
     before do
-      client = Authzed::Api::V1alpha1::Client.new(
+      client = Authzed::Api::V1::Client.new(
         target: 'localhost:50051',
         credentials: :this_channel_is_insecure,
         interceptors: [Authzed::GrpcUtil::BearerToken.new(token: unique_token)]
       )
       client.schema_service.write_schema(
-        Authzed::Api::V1alpha1::WriteSchemaRequest.new(schema: test_schema)
+        Authzed::Api::V1::WriteSchemaRequest.new(schema: test_schema)
       )
     end
 
