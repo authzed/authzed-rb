@@ -3,6 +3,7 @@
 
 require 'google/protobuf'
 
+require 'google/protobuf/struct_pb'
 require 'google/api/annotations_pb'
 require 'validate/validate_pb'
 require 'authzed/api/v1/core_pb'
@@ -67,15 +68,21 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :resource, :message, 2, "authzed.api.v1.ObjectReference", json_name: "resource"
       optional :permission, :string, 3, json_name: "permission"
       optional :subject, :message, 4, "authzed.api.v1.SubjectReference", json_name: "subject"
+      optional :context, :message, 5, "google.protobuf.Struct", json_name: "context"
+    end
+    add_message "authzed.api.v1.PartialCaveatInfo" do
+      repeated :missing_required_context, :string, 1, json_name: "missingRequiredContext"
     end
     add_message "authzed.api.v1.CheckPermissionResponse" do
       optional :checked_at, :message, 1, "authzed.api.v1.ZedToken", json_name: "checkedAt"
       optional :permissionship, :enum, 2, "authzed.api.v1.CheckPermissionResponse.Permissionship", json_name: "permissionship"
+      optional :partial_caveat_info, :message, 3, "authzed.api.v1.PartialCaveatInfo", json_name: "partialCaveatInfo"
     end
     add_enum "authzed.api.v1.CheckPermissionResponse.Permissionship" do
       value :PERMISSIONSHIP_UNSPECIFIED, 0
       value :PERMISSIONSHIP_NO_PERMISSION, 1
       value :PERMISSIONSHIP_HAS_PERMISSION, 2
+      value :PERMISSIONSHIP_CONDITIONAL_PERMISSION, 3
     end
     add_message "authzed.api.v1.ExpandPermissionTreeRequest" do
       optional :consistency, :message, 1, "authzed.api.v1.Consistency", json_name: "consistency"
@@ -91,10 +98,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :resource_object_type, :string, 2, json_name: "resourceObjectType"
       optional :permission, :string, 3, json_name: "permission"
       optional :subject, :message, 4, "authzed.api.v1.SubjectReference", json_name: "subject"
+      optional :context, :message, 5, "google.protobuf.Struct", json_name: "context"
     end
     add_message "authzed.api.v1.LookupResourcesResponse" do
       optional :looked_up_at, :message, 1, "authzed.api.v1.ZedToken", json_name: "lookedUpAt"
       optional :resource_object_id, :string, 2, json_name: "resourceObjectId"
+      optional :permissionship, :enum, 3, "authzed.api.v1.LookupPermissionship", json_name: "permissionship"
+      optional :partial_caveat_info, :message, 4, "authzed.api.v1.PartialCaveatInfo", json_name: "partialCaveatInfo"
     end
     add_message "authzed.api.v1.LookupSubjectsRequest" do
       optional :consistency, :message, 1, "authzed.api.v1.Consistency", json_name: "consistency"
@@ -102,11 +112,26 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :permission, :string, 3, json_name: "permission"
       optional :subject_object_type, :string, 4, json_name: "subjectObjectType"
       optional :optional_subject_relation, :string, 5, json_name: "optionalSubjectRelation"
+      optional :context, :message, 6, "google.protobuf.Struct", json_name: "context"
     end
     add_message "authzed.api.v1.LookupSubjectsResponse" do
       optional :looked_up_at, :message, 1, "authzed.api.v1.ZedToken", json_name: "lookedUpAt"
       optional :subject_object_id, :string, 2, json_name: "subjectObjectId"
       repeated :excluded_subject_ids, :string, 3, json_name: "excludedSubjectIds"
+      optional :permissionship, :enum, 4, "authzed.api.v1.LookupPermissionship", json_name: "permissionship"
+      optional :partial_caveat_info, :message, 5, "authzed.api.v1.PartialCaveatInfo", json_name: "partialCaveatInfo"
+      optional :subject, :message, 6, "authzed.api.v1.ResolvedSubject", json_name: "subject"
+      repeated :excluded_subjects, :message, 7, "authzed.api.v1.ResolvedSubject", json_name: "excludedSubjects"
+    end
+    add_message "authzed.api.v1.ResolvedSubject" do
+      optional :subject_object_id, :string, 1, json_name: "subjectObjectId"
+      optional :permissionship, :enum, 2, "authzed.api.v1.LookupPermissionship", json_name: "permissionship"
+      optional :partial_caveat_info, :message, 3, "authzed.api.v1.PartialCaveatInfo", json_name: "partialCaveatInfo"
+    end
+    add_enum "authzed.api.v1.LookupPermissionship" do
+      value :LOOKUP_PERMISSIONSHIP_UNSPECIFIED, 0
+      value :LOOKUP_PERMISSIONSHIP_HAS_PERMISSION, 1
+      value :LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION, 2
     end
   end
 end
@@ -127,6 +152,7 @@ module Authzed
       DeleteRelationshipsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.DeleteRelationshipsRequest").msgclass
       DeleteRelationshipsResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.DeleteRelationshipsResponse").msgclass
       CheckPermissionRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CheckPermissionRequest").msgclass
+      PartialCaveatInfo = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.PartialCaveatInfo").msgclass
       CheckPermissionResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CheckPermissionResponse").msgclass
       CheckPermissionResponse::Permissionship = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CheckPermissionResponse.Permissionship").enummodule
       ExpandPermissionTreeRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ExpandPermissionTreeRequest").msgclass
@@ -135,6 +161,8 @@ module Authzed
       LookupResourcesResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupResourcesResponse").msgclass
       LookupSubjectsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupSubjectsRequest").msgclass
       LookupSubjectsResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupSubjectsResponse").msgclass
+      ResolvedSubject = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ResolvedSubject").msgclass
+      LookupPermissionship = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.LookupPermissionship").enummodule
     end
   end
 end

@@ -36,5 +36,11 @@ jobs:
       - name: "Install Homebrew & gRPC"
         run: |
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install grpc
+          which grpc_ruby_plugin
+          echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
       - uses: "authzed/actions/buf-generate@main"
+        with:
+          version: "1.9.0"
