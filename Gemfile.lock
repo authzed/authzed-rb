@@ -15,7 +15,7 @@ GEM
     grpc (1.48.0)
       google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
-    grpc-tools (1.48.0)
+    grpc-tools (1.52.0)
     rake (13.0.6)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
