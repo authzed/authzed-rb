@@ -5,6 +5,7 @@ require 'google/protobuf'
 
 require 'google/api/annotations_pb'
 require 'validate/validate_pb'
+require 'authzed/api/v1/core_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/schema_service.proto", :syntax => :proto3) do
@@ -12,11 +13,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "authzed.api.v1.ReadSchemaResponse" do
       optional :schema_text, :string, 1, json_name: "schemaText"
+      optional :read_at, :message, 2, "authzed.api.v1.ZedToken", json_name: "readAt"
     end
     add_message "authzed.api.v1.WriteSchemaRequest" do
       optional :schema, :string, 1, json_name: "schema"
     end
     add_message "authzed.api.v1.WriteSchemaResponse" do
+      optional :written_at, :message, 1, "authzed.api.v1.ZedToken", json_name: "writtenAt"
     end
   end
 end

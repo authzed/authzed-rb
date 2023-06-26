@@ -5,6 +5,8 @@ require 'google/protobuf'
 
 require 'authzed/api/v1/core_pb'
 require 'validate/validate_pb'
+require 'google/protobuf/struct_pb'
+require 'google/protobuf/duration_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("authzed/api/v1/debug.proto", :syntax => :proto3) do
@@ -18,6 +20,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :permission_type, :enum, 3, "authzed.api.v1.CheckDebugTrace.PermissionType", json_name: "permissionType"
       optional :subject, :message, 4, "authzed.api.v1.SubjectReference", json_name: "subject"
       optional :result, :enum, 5, "authzed.api.v1.CheckDebugTrace.Permissionship", json_name: "result"
+      optional :caveat_evaluation_info, :message, 8, "authzed.api.v1.CaveatEvalInfo", json_name: "caveatEvaluationInfo"
+      optional :duration, :message, 9, "google.protobuf.Duration", json_name: "duration"
       oneof :resolution do
         optional :was_cached_result, :bool, 6, json_name: "wasCachedResult"
         optional :sub_problems, :message, 7, "authzed.api.v1.CheckDebugTrace.SubProblems", json_name: "subProblems"
@@ -35,6 +39,21 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :PERMISSIONSHIP_UNSPECIFIED, 0
       value :PERMISSIONSHIP_NO_PERMISSION, 1
       value :PERMISSIONSHIP_HAS_PERMISSION, 2
+      value :PERMISSIONSHIP_CONDITIONAL_PERMISSION, 3
+    end
+    add_message "authzed.api.v1.CaveatEvalInfo" do
+      optional :expression, :string, 1, json_name: "expression"
+      optional :result, :enum, 2, "authzed.api.v1.CaveatEvalInfo.Result", json_name: "result"
+      optional :context, :message, 3, "google.protobuf.Struct", json_name: "context"
+      optional :partial_caveat_info, :message, 4, "authzed.api.v1.PartialCaveatInfo", json_name: "partialCaveatInfo"
+      optional :caveat_name, :string, 5, json_name: "caveatName"
+    end
+    add_enum "authzed.api.v1.CaveatEvalInfo.Result" do
+      value :RESULT_UNSPECIFIED, 0
+      value :RESULT_UNEVALUATED, 1
+      value :RESULT_FALSE, 2
+      value :RESULT_TRUE, 3
+      value :RESULT_MISSING_SOME_CONTEXT, 4
     end
   end
 end
@@ -47,6 +66,8 @@ module Authzed
       CheckDebugTrace::SubProblems = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CheckDebugTrace.SubProblems").msgclass
       CheckDebugTrace::PermissionType = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CheckDebugTrace.PermissionType").enummodule
       CheckDebugTrace::Permissionship = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CheckDebugTrace.Permissionship").enummodule
+      CaveatEvalInfo = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CaveatEvalInfo").msgclass
+      CaveatEvalInfo::Result = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.CaveatEvalInfo.Result").enummodule
     end
   end
 end

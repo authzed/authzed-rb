@@ -29,6 +29,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "authzed.api.v1.ZedToken" do
       optional :token, :string, 1, json_name: "token"
     end
+    add_message "authzed.api.v1.Cursor" do
+      optional :token, :string, 1, json_name: "token"
+    end
     add_message "authzed.api.v1.RelationshipUpdate" do
       optional :operation, :enum, 1, "authzed.api.v1.RelationshipUpdate.Operation", json_name: "operation"
       optional :relationship, :message, 2, "authzed.api.v1.Relationship", json_name: "relationship"
@@ -60,6 +63,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "authzed.api.v1.DirectSubjectSet" do
       repeated :subjects, :message, 1, "authzed.api.v1.SubjectReference", json_name: "subjects"
     end
+    add_message "authzed.api.v1.PartialCaveatInfo" do
+      repeated :missing_required_context, :string, 1, json_name: "missingRequiredContext"
+    end
   end
 end
 
@@ -71,12 +77,14 @@ module Authzed
       SubjectReference = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.SubjectReference").msgclass
       ObjectReference = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ObjectReference").msgclass
       ZedToken = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.ZedToken").msgclass
+      Cursor = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.Cursor").msgclass
       RelationshipUpdate = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.RelationshipUpdate").msgclass
       RelationshipUpdate::Operation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.RelationshipUpdate.Operation").enummodule
       PermissionRelationshipTree = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.PermissionRelationshipTree").msgclass
       AlgebraicSubjectSet = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.AlgebraicSubjectSet").msgclass
       AlgebraicSubjectSet::Operation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.AlgebraicSubjectSet.Operation").enummodule
       DirectSubjectSet = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.DirectSubjectSet").msgclass
+      PartialCaveatInfo = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authzed.api.v1.PartialCaveatInfo").msgclass
     end
   end
 end
