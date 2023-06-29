@@ -3,15 +3,17 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
 jobs:
   release:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v2"
-      - name: "Set up Ruby 2.6"
+      - name: "Set up Ruby"
         uses: "actions/setup-ruby@v1"
         with:
-          ruby-version: "2.6"
+          ruby-version: "3.0"
+          bundler-cache: true
       - name: "Install deps"
         run: |
           gem install bundler
