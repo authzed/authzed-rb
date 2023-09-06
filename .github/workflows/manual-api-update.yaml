@@ -38,7 +38,7 @@ jobs:
         with:
           ruby-version: "2.7.3"
       - name: "Install protoc"
-      - uses: "arduino/setup-protoc@v2"
+        uses: "arduino/setup-protoc@v2"
         with:
           version: "23.3"
       - name: "Install Homebrew & gRPC"
