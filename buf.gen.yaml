@@ -1,4 +1,4 @@
-#!/usr/bin/env -S buf generate buf.build/authzed/api:206ed0aae546729d1bba96f506972b78eab4feeb --template
+#!/usr/bin/env -S buf generate buf.build/authzed/api:352257977a8fd299fcc3a4a6fdbdb2311b2e8f22 --template
 version: "v1"
 plugins:
 - name: "ruby"
