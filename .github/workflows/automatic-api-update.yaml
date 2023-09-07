@@ -1,0 +1,66 @@
+name: "Called update for API change"
+on:
+  repository_dispatch:
+    types: ["api_update"]
+jobs:
+  test:
+    name: "Create PR for API update"
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: "Update Buf Script"
+        id: buf-update
+        uses: authzed/actions/buf-api-update@main
+        with:
+          api-commit: "${{ github.event.client_payload.BUFTAG }}"
+          spec-path: buf.gen.yaml
+          file-format: generate-shell-script
+      - name: "Output update status"
+        env:
+          UPDATED_STATUS: ${{ steps.buf-update.outputs.updated }}
+        run: |
+          echo "Update status: $UPDATED_STATUS"
+      - name: "Update package version"
+        uses: authzed/actions/semver-update@main
+        if: steps.buf-update.outputs.updated == 'true'
+        with:
+          sourcefile-path: authzed.gemspec
+          version-regex: 's.version     = "(.+)"'
+          version-change: minor
+      - name: "Install ruby"
+        uses: "ruby/setup-ruby@v1"
+        with:
+          ruby-version: "2.7.3"
+      - name: "Install protoc"
+        uses: "arduino/setup-protoc@v2"
+        with:
+          version: "23.3"
+      - name: "Install Homebrew & gRPC"
+        run: |
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install grpc
+          which grpc_ruby_plugin
+          echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+      - name: "Install dependencies"
+        run: "bundle install"
+      - name: "Install buf"
+        uses: "bufbuild/buf-setup-action@v1"
+        if: steps.buf-update.outputs.updated == 'true'
+        with:
+          version: "1.18.0"
+      - name: "Run buf generate"
+        if: steps.buf-update.outputs.updated == 'true'
+        run: |
+          ./buf.gen.yaml
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.0.4
+        if: steps.buf-update.outputs.updated == 'true'
+        with:
+          delete-branch: "true"
+          title: "Update API to ${{ github.event.client_payload.BUFTAG }}"
+          branch: "api-change/${{ github.event.client_payload.BUFTAG }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
