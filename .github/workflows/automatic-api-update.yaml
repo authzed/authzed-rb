@@ -36,7 +36,7 @@ jobs:
       - name: "Install protoc"
         uses: "arduino/setup-protoc@v2"
         with:
-          version: "23.3"
+          version: "24.4"
       - name: "Install Homebrew & gRPC"
         run: |
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -51,7 +51,7 @@ jobs:
         uses: "bufbuild/buf-setup-action@v1"
         if: steps.buf-update.outputs.updated == 'true'
         with:
-          version: "1.18.0"
+          version: "v1.27.2"
       - name: "Run buf generate"
         if: steps.buf-update.outputs.updated == 'true'
         run: |

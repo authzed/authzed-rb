@@ -32,7 +32,7 @@ jobs:
           ruby-version: "2.7.3"
       - uses: "arduino/setup-protoc@v2"
         with:
-          version: "23.3"
+          version: "24.4"
       - name: "Install Homebrew & gRPC"
         run: |
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -43,4 +43,4 @@ jobs:
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
       - uses: "authzed/actions/buf-generate@main"
         with:
-          version: "1.9.0"
+          version: "v1.27.2"
