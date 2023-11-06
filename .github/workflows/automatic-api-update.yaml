@@ -36,7 +36,7 @@ jobs:
       - name: "Install protoc"
         uses: "arduino/setup-protoc@v2"
         with:
-          version: "23.3"
+          version: "24.4"
       - name: "Install Homebrew & gRPC"
         run: |
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
