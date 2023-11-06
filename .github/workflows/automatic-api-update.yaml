@@ -51,7 +51,7 @@ jobs:
         uses: "bufbuild/buf-setup-action@v1"
         if: steps.buf-update.outputs.updated == 'true'
         with:
-          version: "1.18.0"
+          version: "v1.27.2"
       - name: "Run buf generate"
         if: steps.buf-update.outputs.updated == 'true'
         run: |
