@@ -32,7 +32,6 @@ module Authzed
           # relationships from the server. It is resumable, and will return results
           # in an order determined by the server.
           rpc :BulkExportRelationships, ::Authzed::Api::V1::BulkExportRelationshipsRequest, stream(::Authzed::Api::V1::BulkExportRelationshipsResponse)
-          rpc :StreamingBulkCheckPermission, ::Authzed::Api::V1::StreamingBulkCheckPermissionRequest, stream(::Authzed::Api::V1::StreamingBulkCheckPermissionResponse)
           rpc :BulkCheckPermission, ::Authzed::Api::V1::BulkCheckPermissionRequest, ::Authzed::Api::V1::BulkCheckPermissionResponse
         end
 
