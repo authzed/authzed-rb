@@ -33,6 +33,9 @@ module Authzed
           # CheckPermission determines for a given resource whether a subject computes
           # to having a permission or is a direct member of a particular relation.
           rpc :CheckPermission, ::Authzed::Api::V1::CheckPermissionRequest, ::Authzed::Api::V1::CheckPermissionResponse
+          # CheckBulkPermissions evaluates the given list of permission checks
+          # and returns the list of results.
+          rpc :CheckBulkPermissions, ::Authzed::Api::V1::CheckBulkPermissionsRequest, ::Authzed::Api::V1::CheckBulkPermissionsResponse
           # ExpandPermissionTree reveals the graph structure for a resource's
           # permission or relation. This RPC does not recurse infinitely deep and may
           # require multiple calls to fully unnest a deeply nested graph.
