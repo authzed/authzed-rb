@@ -19,7 +19,7 @@ jobs:
           gem install bundler
           bundle install
       - name: "Build and publish to Rubygems"
-        uses: "cadwallion/publish-rubygems-action@v1.0.0"
+        uses: "cadwallion/publish-rubygems-action@v1.1.0"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           RUBYGEMS_API_KEY : "${{ secrets.RUBYGEMS_API_KEY }}"
