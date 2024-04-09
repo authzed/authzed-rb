@@ -36,7 +36,8 @@ jobs:
       - name: "Install ruby"
         uses: "ruby/setup-ruby@v1"
         with:
-          ruby-version: "2.7.3"
+          ruby-version: "3.3.0"
+          bundler-cache: true
       - name: "Install protoc"
         uses: "arduino/setup-protoc@v3"
         with:
