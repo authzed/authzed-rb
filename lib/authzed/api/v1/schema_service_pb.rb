@@ -12,29 +12,7 @@ require 'authzed/api/v1/core_pb'
 descriptor_data = "\n#authzed/api/v1/schema_service.proto\x12\x0e\x61uthzed.api.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x17validate/validate.proto\x1a\x19\x61uthzed/api/v1/core.proto\"\x13\n\x11ReadSchemaRequest\"r\n\x12ReadSchemaResponse\x12\x1f\n\x0bschema_text\x18\x01 \x01(\tR\nschemaText\x12;\n\x07read_at\x18\x02 \x01(\x0b\x32\x18.authzed.api.v1.ZedTokenB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x06readAt\"8\n\x12WriteSchemaRequest\x12\"\n\x06schema\x18\x01 \x01(\tB\n\xfa\x42\x07r\x05(\x80\x80\x80\x02R\x06schema\"X\n\x13WriteSchemaResponse\x12\x41\n\nwritten_at\x18\x01 \x01(\x0b\x32\x18.authzed.api.v1.ZedTokenB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\twrittenAt2\xf5\x01\n\rSchemaService\x12o\n\nReadSchema\x12!.authzed.api.v1.ReadSchemaRequest\x1a\".authzed.api.v1.ReadSchemaResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\"\x0f/v1/schema/read:\x01*\x12s\n\x0bWriteSchema\x12\".authzed.api.v1.WriteSchemaRequest\x1a#.authzed.api.v1.WriteSchemaResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\"\x10/v1/schema/write:\x01*BH\n\x12\x63om.authzed.api.v1Z2github.com/authzed/authzed-go/proto/authzed/api/v1b\x06proto3"
 
 pool = Google::Protobuf::DescriptorPool.generated_pool
-
-begin
-  pool.add_serialized_file(descriptor_data)
-rescue TypeError
-  # Compatibility code: will be removed in the next major version.
-  require 'google/protobuf/descriptor_pb'
-  parsed = Google::Protobuf::FileDescriptorProto.decode(descriptor_data)
-  parsed.clear_dependency
-  serialized = parsed.class.encode(parsed)
-  file = pool.add_serialized_file(serialized)
-  warn "Warning: Protobuf detected an import path issue while loading generated file #{__FILE__}"
-  imports = [
-    ["authzed.api.v1.ZedToken", "authzed/api/v1/core.proto"],
-  ]
-  imports.each do |type_name, expected_filename|
-    import_file = pool.lookup(type_name).file_descriptor
-    if import_file.name != expected_filename
-      warn "- #{file.name} imports #{expected_filename}, but that import was loaded as #{import_file.name}"
-    end
-  end
-  warn "Each proto file must use a consistent fully-qualified name."
-  warn "This will become an error in the next major version."
-end
+pool.add_serialized_file(descriptor_data)
 
 module Authzed
   module Api
