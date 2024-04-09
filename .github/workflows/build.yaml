@@ -42,6 +42,6 @@ jobs:
           brew install grpc
           which grpc_ruby_plugin
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
-      - uses: "authzed/actions/buf-generate@main"
+      - uses: "bufbuild/buf-setup-action@v1.30.1"
         with:
-          version: "v1.27.2"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
