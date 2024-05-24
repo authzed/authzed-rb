@@ -26,6 +26,11 @@ jobs:
           UPDATED_STATUS: ${{ steps.buf-update.outputs.updated }}
         run: |
           echo "Update status: $UPDATED_STATUS"
+      - name: "Install ruby and dependencies"
+        uses: "ruby/setup-ruby@v1"
+        with:
+          ruby-version: "3.3.0"
+          bundler-cache: true
       - name: "Update package version"
         uses: authzed/actions/semver-update@main
         if: steps.buf-update.outputs.updated == 'true'
@@ -33,11 +38,8 @@ jobs:
           sourcefile-path: authzed.gemspec
           version-regex: 's.version     = "(.+)"'
           version-change: minor
-      - name: "Install ruby"
-        uses: "ruby/setup-ruby@v1"
-        with:
-          ruby-version: "3.3.0"
-          bundler-cache: true
+      - name: "Update Gemfile"
+        run: "bundle install"
       - name: "Install protoc"
         uses: "arduino/setup-protoc@v3"
         with:
@@ -50,8 +52,6 @@ jobs:
           brew install grpc
           which grpc_ruby_plugin
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
-      - name: "Install dependencies"
-        run: "bundle install"
       - name: "Install buf"
         uses: "bufbuild/buf-setup-action@v1.32.0"
         with:
