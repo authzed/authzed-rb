@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    authzed (0.8.0)
+    authzed (0.9.0)
       grpc (~> 1.41)
       grpc-tools (~> 1.41)
 
@@ -12,10 +12,10 @@ GEM
     google-protobuf (3.25.3)
     googleapis-common-protos-types (1.14.0)
       google-protobuf (~> 3.18)
-    grpc (1.63.0)
+    grpc (1.64.0)
       google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
-    grpc-tools (1.63.0)
+    grpc-tools (1.64.0)
     rake (13.2.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
