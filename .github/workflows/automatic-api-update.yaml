@@ -35,7 +35,9 @@ jobs:
           version-regex: 's.version     = "(.+)"'
           version-change: minor
       - name: "Update Gemfile"
-        run: "bundle install" 
+        run: |
+          bundle config unset deployment
+          bundle install
       - name: "Install protoc"
         uses: "arduino/setup-protoc@v3"
         with:
