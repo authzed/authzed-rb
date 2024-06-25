@@ -55,7 +55,7 @@ jobs:
           which grpc_ruby_plugin
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
       - name: "Install buf"
-        uses: "bufbuild/buf-setup-action@v1.33.0"
+        uses: "bufbuild/buf-setup-action@v1.34.0"
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         if: steps.buf-update.outputs.updated == 'true'
@@ -64,7 +64,7 @@ jobs:
         run: |
           ./buf.gen.yaml
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6.0.5
+        uses: peter-evans/create-pull-request@v6.1.0
         if: steps.buf-update.outputs.updated == 'true'
         with:
           delete-branch: "true"
