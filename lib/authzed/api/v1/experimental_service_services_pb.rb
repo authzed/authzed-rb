@@ -51,6 +51,13 @@ module Authzed
           # specified schema and the schema stored in SpiceDB. This is useful for clients that need to
           # introspect the schema of a SpiceDB instance.
           rpc :ExperimentalDiffSchema, ::Authzed::Api::V1::ExperimentalDiffSchemaRequest, ::Authzed::Api::V1::ExperimentalDiffSchemaResponse
+          # EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before
+          # a count can be requested.
+          rpc :ExperimentalRegisterRelationshipCounter, ::Authzed::Api::V1::ExperimentalRegisterRelationshipCounterRequest, ::Authzed::Api::V1::ExperimentalRegisterRelationshipCounterResponse
+          # EXPERIMENTAL: CountRelationships returns the count of relationships for *pre-registered* filter.
+          rpc :ExperimentalCountRelationships, ::Authzed::Api::V1::ExperimentalCountRelationshipsRequest, ::Authzed::Api::V1::ExperimentalCountRelationshipsResponse
+          # EXPERIMENTAL: UnregisterRelationshipCounter unregisters an existing filter for counting relationships.
+          rpc :ExperimentalUnregisterRelationshipCounter, ::Authzed::Api::V1::ExperimentalUnregisterRelationshipCounterRequest, ::Authzed::Api::V1::ExperimentalUnregisterRelationshipCounterResponse
         end
 
         Stub = Service.rpc_stub_class
