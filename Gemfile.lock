@@ -10,15 +10,15 @@ GEM
   specs:
     bigdecimal (3.1.8)
     diff-lcs (1.5.1)
-    google-protobuf (4.27.3)
+    google-protobuf (4.28.0)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos-types (1.15.0)
       google-protobuf (>= 3.18, < 5.a)
-    grpc (1.65.2)
+    grpc (1.66.0)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc-tools (1.65.2)
+    grpc-tools (1.66.0)
     rake (13.2.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
