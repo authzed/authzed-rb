@@ -10,7 +10,7 @@ GEM
   specs:
     bigdecimal (3.1.8)
     diff-lcs (1.5.1)
-    google-protobuf (4.28.0)
+    google-protobuf (4.28.2)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos-types (1.15.0)
