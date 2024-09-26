@@ -46,6 +46,17 @@ module Authzed
           # LookupSubjects returns all the subjects of a given type that
           # have access whether via a computed permission or relation membership.
           rpc :LookupSubjects, ::Authzed::Api::V1::LookupSubjectsRequest, stream(::Authzed::Api::V1::LookupSubjectsResponse)
+          # ImportBulkRelationships is a faster path to writing a large number of
+          # relationships at once. It is both batched and streaming. For maximum
+          # performance, the caller should attempt to write relationships in as close
+          # to relationship sort order as possible: (resource.object_type,
+          # resource.object_id, relation, subject.object.object_type,
+          # subject.object.object_id, subject.optional_relation)
+          rpc :ImportBulkRelationships, stream(::Authzed::Api::V1::ImportBulkRelationshipsRequest), ::Authzed::Api::V1::ImportBulkRelationshipsResponse
+          # ExportBulkRelationships is the fastest path available to exporting
+          # relationships from the server. It is resumable, and will return results
+          # in an order determined by the server.
+          rpc :ExportBulkRelationships, ::Authzed::Api::V1::ExportBulkRelationshipsRequest, stream(::Authzed::Api::V1::ExportBulkRelationshipsResponse)
         end
 
         Stub = Service.rpc_stub_class
