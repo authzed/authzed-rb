@@ -1,8 +1,9 @@
-#!/usr/bin/env -S buf generate buf.build/authzed/api:v1.37.0 --template
-version: "v1"
+#!/usr/bin/env -S buf generate
+version: "v2"
 plugins:
-- name: "ruby"
+- protoc_builtin: "ruby"
   out: "lib"
-- name: "grpc-ruby"
+- local: "grpc_ruby_plugin"
   out: "lib"
-  path: "grpc_ruby_plugin"
+inputs:
+  - module: buf.build/authzed/api:v1.37.0
