@@ -18,5 +18,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "grpc", "~> 1.41"
   s.add_runtime_dependency "grpc-tools", "~> 1.41"
 
-  s.add_development_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rspec", "~> 3"
+  s.add_development_dependency "rake", "~> 13"
+  s.add_development_dependency "gem-release", "~> 2"
 end
