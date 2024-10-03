@@ -180,6 +180,35 @@ describe 'Client', '#permissions' do
           Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_NO_PERMISSION
         )
       end
+      it 'can bulk-check permissions' do
+        resp = client.permissions_service.check_bulk_permissions(
+          Authzed::Api::V1::CheckBulkPermissionsRequest.new(
+            consistency: Authzed::Api::V1::Consistency.new(
+              at_least_as_fresh: Authzed::Api::V1::ZedToken.new(token: zed_token)
+            ),
+            items: [
+              Authzed::Api::V1::CheckBulkPermissionsRequestItem.new(
+                resource: document_resource,
+                permission: 'view',
+                subject: beatrice
+              ),
+              Authzed::Api::V1::CheckBulkPermissionsRequestItem.new(
+                resource: document_resource,
+                permission: 'edit',
+                subject: beatrice
+              )
+            ]
+          )
+        )
+        view_response = resp.pairs[0].item
+        edit_response = resp.pairs[1].item
+        expect(Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(view_response.permissionship)).to eq(
+          Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_HAS_PERMISSION
+        )
+        expect(Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(edit_response.permissionship)).to eq(
+          Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_NO_PERMISSION
+        )
+      end
     end
   end
 end
