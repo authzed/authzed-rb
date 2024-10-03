@@ -30,12 +30,7 @@ jobs:
       - name: Set version within package
         # TODO: change this to $VERSION
         run: "bundle exec bump set 1.0.0 --no-commit"
-      - name: "Build and publish to Rubygems"
-        uses: "cadwallion/publish-rubygems-action@v1.1.0"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          RUBYGEMS_API_KEY: "${{ secrets.RUBYGEMS_API_KEY }}"
-          # NOTE: we override the release command because `rake release`
-          # attempts to push a tag to the upstream repo and we don't
-          # want that.
-          RELEASE_COMMAND: "rake build && gem push pkg/..."
+      - name: "Build the package"
+        run: "bundle exec rake build"
+      - name: "Publish the package"
+        run: "bundle exec gem push pkg/... -k ${{ secrets.RUBYGEMS_API_KEY }}"
