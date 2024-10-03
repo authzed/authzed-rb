@@ -1,4 +1,4 @@
-#!/usr/bin/env -S buf generate
+#!/usr/bin/env -S buf generate --template
 version: "v2"
 plugins:
 - protoc_builtin: "ruby"
