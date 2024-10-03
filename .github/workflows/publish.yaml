@@ -24,8 +24,7 @@ jobs:
           echo Version: $VERSION
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Set version within package
-        # TODO: change this to $VERSION
-        run: "bundle exec bump set 1.0.0 --no-commit"
+        run: "bundle exec bump set ${VERSION} --no-commit"
       - name: "Build the package"
         run: "bundle exec rake build"
       - name: "Publish the package"
