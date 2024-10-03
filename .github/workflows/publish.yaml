@@ -1,11 +1,8 @@
 name: "Publish gem to Rubygems"
 on:
-  #push:
-    #tags:
-      #- '*'
-  pull_request:
-    branches:
-    - "*"
+  push:
+    tags:
+      - '*'
   workflow_dispatch:
 jobs:
   release:
