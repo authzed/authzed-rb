@@ -22,4 +22,8 @@ jobs:
         uses: "cadwallion/publish-rubygems-action@v1.1.0"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          RUBYGEMS_API_KEY : "${{ secrets.RUBYGEMS_API_KEY }}"
+          RUBYGEMS_API_KEY: "${{ secrets.RUBYGEMS_API_KEY }}"
+          # NOTE: we override the release command because `rake release`
+          # attempts to push a tag to the upstream repo and we don't
+          # want that.
+          RELEASE_COMMAND: "rake build && gem push pkg/..."
