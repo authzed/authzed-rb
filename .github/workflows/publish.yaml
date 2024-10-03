@@ -15,7 +15,6 @@ jobs:
       - name: "Set up Ruby"
         uses: "ruby/setup-ruby@v1"
         with:
-          ruby-version: "3.3.0"
           bundler-cache: true
       - name: "Install deps"
         run: |
@@ -33,4 +32,6 @@ jobs:
       - name: "Build the package"
         run: "bundle exec rake build"
       - name: "Publish the package"
-        run: "bundle exec gem push pkg/... -k ${{ secrets.RUBYGEMS_API_KEY }}"
+        run: "bundle exec gem push pkg/*.gem"
+        env:
+          GEM_HOST_API_KEY : "${{ secrets.RUBYGEMS_API_KEY }}"
