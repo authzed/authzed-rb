@@ -1,4 +1,7 @@
 lib/authzed/api/v0/
 lib/authzed/api/v1alpha1/
+pkg
 .bundle
 vendor
+# This is intentionally omitted.
+Gemfile.lock
