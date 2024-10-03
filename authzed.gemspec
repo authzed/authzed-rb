@@ -1,5 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = "authzed"
+  # NOTE: version is managed programmatically at release time
+  # and reflects the associated git tag.
   s.version     = "0.12.0"
   s.licenses    = ["Apache-2.0"]
   s.summary     = "Ruby bindings for Authzed API"
