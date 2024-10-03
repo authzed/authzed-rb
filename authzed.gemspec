@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift File.expand_path('lib', __dir__)
-require "authzed/version"
-
 Gem::Specification.new do |s|
   s.name        = "authzed"
   # NOTE: version is managed programmatically at release time
   # and reflects the associated git tag.
-  s.version     = Authzed::VERSION
+  s.version     = "1.0.0"
   s.licenses    = ["Apache-2.0"]
   s.summary     = "Ruby bindings for Authzed API"
   s.description = "Authzed is the best way to build robust and scalable permissions systems. See https://authzed.com for more details."
@@ -25,5 +22,5 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rspec", "~> 3"
   s.add_development_dependency "rake", "~> 13"
-  s.add_development_dependency "gem-release", "~> 2"
+  s.add_development_dependency "bump", "~> 0.10"
 end
