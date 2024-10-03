@@ -28,7 +28,8 @@ jobs:
           echo Version: $VERSION
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Set version within package
-        run: "bundle exec gem bump --version 1.0.0 --no-commit"
+        # TODO: change this to $VERSION
+        run: "bundle exec bump set 1.0.0 --no-commit"
       - name: "Build and publish to Rubygems"
         uses: "cadwallion/publish-rubygems-action@v1.1.0"
         env:
