@@ -12,14 +12,22 @@ jobs:
       - name: "Set up Ruby"
         uses: "ruby/setup-ruby@v1"
         with:
-          ruby-version: "3.3.0"
           bundler-cache: true
       - name: "Install deps"
         run: |
           gem install bundler
           bundle install
-      - name: "Build and publish to Rubygems"
-        uses: "cadwallion/publish-rubygems-action@v1.1.0"
+      # Set the version at release time
+      - name: Write release version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Set version within package
+        run: "bundle exec bump set ${VERSION} --no-commit"
+      - name: "Build the package"
+        run: "bundle exec rake build"
+      - name: "Publish the package"
+        run: "bundle exec gem push pkg/*.gem"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          RUBYGEMS_API_KEY : "${{ secrets.RUBYGEMS_API_KEY }}"
+          GEM_HOST_API_KEY : "${{ secrets.RUBYGEMS_API_KEY }}"
