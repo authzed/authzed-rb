@@ -54,7 +54,7 @@ jobs:
           which grpc_ruby_plugin
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
       - name: "Install buf"
-        uses: "bufbuild/buf-setup-action@v1.44.0"
+        uses: "bufbuild/buf-setup-action@v1.45.0"
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         if: steps.buf-update.outputs.updated == 'true'
