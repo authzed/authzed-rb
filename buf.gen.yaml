@@ -6,4 +6,4 @@ plugins:
 - local: "grpc_ruby_plugin"
   out: "lib"
 inputs:
-  - module: buf.build/authzed/api:v1.37.0
+  - module: "buf.build/authzed/api:v1.38.0"

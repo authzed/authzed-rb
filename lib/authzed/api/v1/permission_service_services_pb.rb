@@ -51,7 +51,8 @@ module Authzed
           # performance, the caller should attempt to write relationships in as close
           # to relationship sort order as possible: (resource.object_type,
           # resource.object_id, relation, subject.object.object_type,
-          # subject.object.object_id, subject.optional_relation)
+          # subject.object.object_id, subject.optional_relation). All relationships
+          # written are done so under a single transaction.
           rpc :ImportBulkRelationships, stream(::Authzed::Api::V1::ImportBulkRelationshipsRequest), ::Authzed::Api::V1::ImportBulkRelationshipsResponse
           # ExportBulkRelationships is the fastest path available to exporting
           # relationships from the server. It is resumable, and will return results
