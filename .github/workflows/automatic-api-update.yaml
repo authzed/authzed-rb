@@ -41,4 +41,5 @@ jobs:
           title: "Update API to ${{ github.event.client_payload.BUFTAG }}"
           #branch: "api-change/${{ github.event.client_payload.BUFTAG }}"
           branch: "api-change/v1.38.0"
+          base: "main"
           token: ${{ secrets.GITHUB_TOKEN }}
