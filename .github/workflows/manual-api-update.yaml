@@ -1,3 +1,4 @@
+---
 name: Update for API change
 on:
   workflow_dispatch:
