@@ -1,4 +1,4 @@
-#!/usr/bin/env -S buf generate
+---
 version: "v2"
 plugins:
   - remote: "buf.build/protocolbuffers/ruby:v28.3"
@@ -6,4 +6,4 @@ plugins:
   - remote: "buf.build/grpc/ruby:v1.67.1"
     out: "lib"
 inputs:
-  - module: "buf.build/authzed/api:v1.37.0"
+  - module: "buf.build/authzed/api:v1.38.0"
