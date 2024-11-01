@@ -1,9 +1,9 @@
-#!/usr/bin/env -S buf generate --template
+#!/usr/bin/env -S buf generate
 version: "v2"
 plugins:
 - protoc_builtin: "ruby"
   out: "lib"
-- local: "grpc_ruby_plugin"
+- remote: "buf.build/grpc/ruby:v1.67.1"
   out: "lib"
 inputs:
-  - module: buf.build/authzed/api:v1.37.0
+  - module: "buf.build/authzed/api:v1.37.0"
