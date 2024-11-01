@@ -1,9 +1,7 @@
 name: "Called update for API change"
 on:
-  #repository_dispatch:
-    #types: ["api_update"]
-  pull_request:
-    branches: ["*"]
+  repository_dispatch:
+    types: ["api_update"]
 jobs:
   test:
     name: "Create PR for API update"
@@ -16,8 +14,7 @@ jobs:
         id: buf-update
         uses: authzed/actions/buf-api-update@implement-yaml-parsing
         with:
-          #api-commit: "${{ github.event.client_payload.BUFTAG }}"
-          api-commit: "v1.38.0"
+          api-commit: "${{ github.event.client_payload.BUFTAG }}"
           spec-path: buf.gen.yaml
           file-format: "buf-gen-yaml"
       - name: "Output update status"
@@ -39,7 +36,6 @@ jobs:
         with:
           delete-branch: "true"
           title: "Update API to ${{ github.event.client_payload.BUFTAG }}"
-          #branch: "api-change/${{ github.event.client_payload.BUFTAG }}"
-          branch: "api-change/v1.38.0"
+          branch: "api-change/${{ github.event.client_payload.BUFTAG }}"
           base: "main"
           token: ${{ secrets.GITHUB_TOKEN }}
