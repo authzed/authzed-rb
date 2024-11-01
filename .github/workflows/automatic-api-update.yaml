@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v4
       - name: "Update Buf Script"
         id: buf-update
-        uses: authzed/actions/buf-api-update@implement-yaml-parsing
+        uses: authzed/actions/buf-api-update@main
         with:
           api-commit: "${{ github.event.client_payload.BUFTAG }}"
           spec-path: buf.gen.yaml
