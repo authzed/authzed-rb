@@ -16,7 +16,8 @@ jobs:
         id: buf-update
         uses: authzed/actions/buf-api-update@implement-yaml-parsing
         with:
-          api-commit: "${{ github.event.client_payload.BUFTAG }}"
+          #api-commit: "${{ github.event.client_payload.BUFTAG }}"
+          api-commit: "v1.38.0"
           spec-path: buf.gen.yaml
           file-format: "buf-gen-yaml"
       - name: "Output update status"
