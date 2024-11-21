@@ -25,7 +25,7 @@ This folder vendors the `validate.proto` file and generates Ruby code out of it 
 
 ```bash
 # run from /lib folder
-./validate/buf.gen.yaml 
+buf generate --template validate/buf.gen.yaml 
 ```
 
 Note: It's important to run this from /lib, to make sure the generated descriptor name matches `validate/validate.proto`

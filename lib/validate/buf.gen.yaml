@@ -1,5 +1,5 @@
-#!/usr/bin/env -S buf generate --template
-version: "v1"
+---
+version: v2
 plugins:
-- name: "ruby"
-  out: "."
+  - remote: "buf.build/protocolbuffers/ruby:v28.3"
+    out: "."
