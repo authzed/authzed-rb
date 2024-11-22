@@ -2,6 +2,7 @@
 version: "v2"
 plugins:
   - remote: "buf.build/protocolbuffers/ruby:v28.3"
+    include_imports: true
     out: "lib"
   - remote: "buf.build/grpc/ruby:v1.67.1"
     out: "lib"

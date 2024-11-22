@@ -1,5 +1,0 @@
-#!/usr/bin/env -S buf generate --template
-version: "v1"
-plugins:
-- name: "ruby"
-  out: "."
