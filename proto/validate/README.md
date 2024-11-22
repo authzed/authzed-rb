@@ -20,12 +20,3 @@ This will become an error in the next major version.
 ```
 
 This folder vendors the `validate.proto` file and generates Ruby code out of it using buf.
-
-## How to generate
-
-```bash
-# run from /lib folder
-buf generate --template validate/buf.gen.yaml 
-```
-
-Note: It's important to run this from /lib, to make sure the generated descriptor name matches `validate/validate.proto`
