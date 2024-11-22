@@ -7,3 +7,4 @@ plugins:
     out: "lib"
 inputs:
   - module: "buf.build/authzed/api:v1.38.0"
+  - directory: "./proto/validate"
