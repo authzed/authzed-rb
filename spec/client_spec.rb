@@ -18,19 +18,19 @@ definition document {
 	permission view = reader + edit
 }
 
-/** user represents a user that can be granted role(s) */
-definition user {}
+/** project represents a project that can have issues created in it. */
+definition project {
+	/** writer indicates that the user is a writer on the document. */
+	relation issue_creator: role#member
+}
 
 /** role represents a role that can be granted to a user. */
 definition role {
-  relation member: user
+	relation member: user
 }
 
-/** project represents a project that can have issues created in it. */
-definition project {
-  relation issue_creator: role#member
-}
-"''
+/** user represents a user that can be granted role(s) */
+definition user {}"''
 
 describe 'Client', '#schema' do
   let(:client) do
@@ -250,10 +250,18 @@ describe 'Client', '#permissions' do
           ]
         )
 
-        response = client.acl_service.write_relationships(request)
+        response = client.permissions_service.write_relationships(request)
 
         expect(response).to be_a(Authzed::Api::V1::WriteRelationshipsResponse)
         expect(response.written_at.token).not_to be_nil
+
+        resp = client.permissions_service.read_relationships(
+          Authzed::Api::V1::ReadRelationshipsRequest.new(
+            consistency: Authzed::Api::V1::Consistency.new(fully_consistent: true),
+            relationship_filter: Authzed::Api::V1::RelationshipFilter.new(resource_type: 'project')
+          )
+        )
+        expect(resp.count).to eq 1
       end
     end
   end
