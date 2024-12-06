@@ -18,6 +18,17 @@ definition document {
 	permission view = reader + edit
 }
 
+/** project represents a project that can have issues created in it. */
+definition project {
+	/** writer indicates that the user is a writer on the document. */
+	relation issue_creator: role#member
+}
+
+/** role represents a role that can be granted to a user. */
+definition role {
+	relation member: user
+}
+
 /** user represents a user that can be granted role(s) */
 definition user {}"''
 
@@ -208,6 +219,49 @@ describe 'Client', '#permissions' do
         expect(Authzed::Api::V1::CheckPermissionResponse::Permissionship.resolve(edit_response.permissionship)).to eq(
           Authzed::Api::V1::CheckPermissionResponse::Permissionship::PERMISSIONSHIP_NO_PERMISSION
         )
+      end
+    end
+
+    context 'when writing a relationship' do
+      it 'writes a relationship for issue_creator with a role subject' do
+        # Define the relationship to be written
+        relationship = Authzed::Api::V1::Relationship.new(
+          resource: Authzed::Api::V1::ObjectReference.new(
+            object_type: 'project',
+            object_id: 'oursoftware'
+          ),
+          relation: 'issue_creator',
+          subject: Authzed::Api::V1::SubjectReference.new(
+            object: Authzed::Api::V1::ObjectReference.new(
+              object_type: 'role',
+              object_id: 'project_manager'
+            ),
+            optional_relation: 'member'
+          )
+        )
+
+        # Create a WriteRelationshipsRequest
+        request = Authzed::Api::V1::WriteRelationshipsRequest.new(
+          updates: [
+            Authzed::Api::V1::RelationshipUpdate.new(
+              operation: :OPERATION_CREATE,
+              relationship: relationship
+            )
+          ]
+        )
+
+        response = client.permissions_service.write_relationships(request)
+
+        expect(response).to be_a(Authzed::Api::V1::WriteRelationshipsResponse)
+        expect(response.written_at.token).not_to be_nil
+
+        resp = client.permissions_service.read_relationships(
+          Authzed::Api::V1::ReadRelationshipsRequest.new(
+            consistency: Authzed::Api::V1::Consistency.new(fully_consistent: true),
+            relationship_filter: Authzed::Api::V1::RelationshipFilter.new(resource_type: 'project')
+          )
+        )
+        expect(resp.count).to eq 1
       end
     end
   end
