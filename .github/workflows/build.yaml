@@ -37,6 +37,6 @@ jobs:
           brew install grpc
           which grpc_ruby_plugin
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
-      - uses: "bufbuild/buf-setup-action@v1.49.0"
+      - uses: "bufbuild/buf-setup-action@v1.50.0"
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
