@@ -1,5 +1,6 @@
 require 'grpc'
 
+# nice
 module Authzed
   module Api
     module V1
