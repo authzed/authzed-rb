@@ -25,6 +25,21 @@ module Authzed
           rpc :ReadSchema, ::Authzed::Api::V1::ReadSchemaRequest, ::Authzed::Api::V1::ReadSchemaResponse
           # Write overwrites the current Object Definitions for a Permissions System.
           rpc :WriteSchema, ::Authzed::Api::V1::WriteSchemaRequest, ::Authzed::Api::V1::WriteSchemaResponse
+          # ReflectSchema reflects the current schema stored in SpiceDB, returning a structural
+          # form of the schema for use by client tooling.
+          rpc :ReflectSchema, ::Authzed::Api::V1::ReflectSchemaRequest, ::Authzed::Api::V1::ReflectSchemaResponse
+          # ComputablePermissions returns the set of permissions that compute based off a relation
+          # in the current schema. For example, if the schema has a relation `viewer` and a permission
+          # `view` defined as `permission view = viewer + editor`, then the
+          # computable permissions for the relation `viewer` will include `view`.
+          rpc :ComputablePermissions, ::Authzed::Api::V1::ComputablePermissionsRequest, ::Authzed::Api::V1::ComputablePermissionsResponse
+          # DependentRelations returns the set of relations and permissions that used
+          # to compute a permission, recursively, in the current schema. It is the
+          # inverse of the ComputablePermissions API.
+          rpc :DependentRelations, ::Authzed::Api::V1::DependentRelationsRequest, ::Authzed::Api::V1::DependentRelationsResponse
+          # DiffSchema returns the difference between the specified schema and the current
+          # schema stored in SpiceDB.
+          rpc :DiffSchema, ::Authzed::Api::V1::DiffSchemaRequest, ::Authzed::Api::V1::DiffSchemaResponse
         end
 
         Stub = Service.rpc_stub_class
