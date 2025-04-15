@@ -35,21 +35,13 @@ module Authzed
           # NOTE: BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission" and the
           # API will be removed from experimental in a future release.
           rpc :BulkCheckPermission, ::Authzed::Api::V1::BulkCheckPermissionRequest, ::Authzed::Api::V1::BulkCheckPermissionResponse
-          # EXPERIMENTAL: ReflectSchema is an API that allows clients to reflect the schema stored in
-          # SpiceDB. This is useful for clients that need to introspect the schema of a SpiceDB instance.
+          # DEPRECATED: Promoted to ReflectSchema in the stable API.
           rpc :ExperimentalReflectSchema, ::Authzed::Api::V1::ExperimentalReflectSchemaRequest, ::Authzed::Api::V1::ExperimentalReflectSchemaResponse
-          # EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
-          # permissions that compute based off a relation. For example, if a schema has a relation
-          # `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
-          # computable permissions for the relation `viewer` will include `view`.
+          # DEPRECATED: Promoted to ComputablePermissions in the stable API.
           rpc :ExperimentalComputablePermissions, ::Authzed::Api::V1::ExperimentalComputablePermissionsRequest, ::Authzed::Api::V1::ExperimentalComputablePermissionsResponse
-          # EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
-          # relations and permissions that used to compute a permission, recursively. It is the
-          # inverse of the ComputablePermissions API.
+          # DEPRECATED: Promoted to DependentRelations in the stable API.
           rpc :ExperimentalDependentRelations, ::Authzed::Api::V1::ExperimentalDependentRelationsRequest, ::Authzed::Api::V1::ExperimentalDependentRelationsResponse
-          # EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
-          # specified schema and the schema stored in SpiceDB. This is useful for clients that need to
-          # introspect the schema of a SpiceDB instance.
+          # DEPRECATED: Promoted to DiffSchema in the stable API.
           rpc :ExperimentalDiffSchema, ::Authzed::Api::V1::ExperimentalDiffSchemaRequest, ::Authzed::Api::V1::ExperimentalDiffSchemaResponse
           # EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before
           # a count can be requested.
