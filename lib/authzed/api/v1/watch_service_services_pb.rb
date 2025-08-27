@@ -16,6 +16,8 @@ module Authzed
           self.unmarshal_class_method = :decode
           self.service_name = 'authzed.api.v1.WatchService'
 
+          # Watch returns a stream of events that occurred in the datastore in ascending timestamp order.
+          # The events can be relationship updates, schema updates, or checkpoints.
           rpc :Watch, ::Authzed::Api::V1::WatchRequest, stream(::Authzed::Api::V1::WatchResponse)
         end
 
