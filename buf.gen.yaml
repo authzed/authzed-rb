@@ -7,4 +7,4 @@ plugins:
   - remote: "buf.build/grpc/ruby:v1.67.1"
     out: "lib"
 inputs:
-  - module: "buf.build/authzed/api:v1.41.0"
+  - module: "buf.build/authzed/api:v1.45.0"

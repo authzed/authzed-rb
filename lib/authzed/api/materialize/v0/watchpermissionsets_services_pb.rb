@@ -62,6 +62,11 @@ module Authzed
             # cursor received. Once completed, the consumer may start streaming permission set changes using WatchPermissionSets
             # and the revision token from the last LookupPermissionSets response.
             rpc :LookupPermissionSets, ::Authzed::Api::Materialize::V0::LookupPermissionSetsRequest, stream(::Authzed::Api::Materialize::V0::LookupPermissionSetsResponse)
+            # DownloadPermissionSets returns URLs to download permission sets data as Avro files.
+            # This provides an alternative to LookupPermissionSets for customers who need to download
+            # large datasets efficiently. The returned URLs point to compressed Avro files containing
+            # the permission sets data in a normalized format.
+            rpc :DownloadPermissionSets, ::Authzed::Api::Materialize::V0::DownloadPermissionSetsRequest, ::Authzed::Api::Materialize::V0::DownloadPermissionSetsResponse
           end
 
           Stub = Service.rpc_stub_class
