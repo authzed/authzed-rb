@@ -15,7 +15,7 @@ jobs:
     name: "Test Clients"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "actions/checkout@v6"
+      - uses: "actions/checkout@v7"
       - uses: "ruby/setup-ruby@v1"
         with:
           bundler-cache: true
@@ -32,5 +32,5 @@ jobs:
     runs-on: "depot-ubuntu-24.04-small"
     if: "github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened' || github.event.action == 'edited')"
     steps:
-      - uses: "actions/checkout@v6"
+      - uses: "actions/checkout@v7"
       - uses: "webiny/action-conventional-commits@v1.4.2"
