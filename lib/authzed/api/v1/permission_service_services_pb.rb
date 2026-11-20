@@ -42,9 +42,18 @@ module Authzed
           rpc :ExpandPermissionTree, ::Authzed::Api::V1::ExpandPermissionTreeRequest, ::Authzed::Api::V1::ExpandPermissionTreeResponse
           # LookupResources returns all the resources of a given type that a subject
           # can access whether via a computed permission or relation membership.
+          #
+          # Results are streamed and **not guaranteed to be unique**: the same resource
+          # may be returned more than once (for example via caveated/conditional
+          # results, or when a limit is set), possibly with differing permissionship.
+          # Callers that require uniqueness should deduplicate results.
           rpc :LookupResources, ::Authzed::Api::V1::LookupResourcesRequest, stream(::Authzed::Api::V1::LookupResourcesResponse)
           # LookupSubjects returns all the subjects of a given type that
           # have access whether via a computed permission or relation membership.
+          #
+          # Results are streamed and **not guaranteed to be unique**: the same subject
+          # may be returned more than once, possibly with differing permissionship.
+          # Callers that require uniqueness should deduplicate results.
           rpc :LookupSubjects, ::Authzed::Api::V1::LookupSubjectsRequest, stream(::Authzed::Api::V1::LookupSubjectsResponse)
           # ImportBulkRelationships is a faster path to writing a large number of
           # relationships at once. It is both batched and streaming. For maximum
